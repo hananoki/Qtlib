@@ -1,0 +1,7 @@
+/.svn
+/.vs
+.qmake.stash
+/release
+/debug
+/Qtlib.pro.user
+/Qtlib.vcxproj.user
