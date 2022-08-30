@@ -251,11 +251,11 @@ namespace fs {
 	}
 
 	bool isExistFile( const QString& path ) {
-		return QFileInfo( path ).exists();
+		return QFileInfo( path ).isFile();
 	}
 
 	bool isExistDirectory( const QString& path ) {
-		return QDir( path ).exists();
+		return QFileInfo( path ).isDir();
 	}
 
 	bool isWritableFile( const QString& path ) {

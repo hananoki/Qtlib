@@ -38,67 +38,76 @@ namespace icon {
 
 #define FA_TAG(xxx,yyy) QIcon xxx ();
 #define FAA_LIST \
-		FA_TAG( FA_ARROWUP, fa::arrowup ) \
-		FA_TAG( FA_BOOKMARK, fa::bookmark ) \
-		FA_TAG( FA_BOOKMARKO, fa::bookmarko ) \
-		FA_TAG( FA_BRIEFCASE, fa::briefcase ) \
-		FA_TAG( FA_COG, fa::cog ) \
-		FA_TAG( FA_CODEPEN, fa::codepen ) \
-		FA_TAG( FA_CODE, fa::code ) \
-		FA_TAG( FA_GROUP, fa::group ) \
+		FA_TAG( arrowup, fa::arrowup ) \
+		FA_TAG( bookmark, fa::bookmark ) \
+		FA_TAG( bookmarko, fa::bookmarko ) \
+		FA_TAG( briefcase, fa::briefcase ) \
+		FA_TAG( cog, fa::cog ) \
+		FA_TAG( cogs, fa::cogs ) \
+		FA_TAG( gear, fa::gear ) \
+		FA_TAG( gears, fa::gears ) \
+		FA_TAG( columns, fa::columns ) \
+		FA_TAG( codepen, fa::codepen ) \
+		FA_TAG( code, fa::code ) \
+		FA_TAG( dashboard, fa::dashboard ) \
+		FA_TAG( group, fa::group ) \
+		FA_TAG( feed, fa::feed ) \
+		FA_TAG( ellipsisv, fa::ellipsisv ) \
 \
-		FA_TAG( FA_FILESO, fa::fileso ) \
-		FA_TAG( FA_FOLDER, fa::folder ) \
-		FA_TAG( FA_FOLDERO, fa::foldero ) \
-		FA_TAG( FA_FOLDEROPEN, fa::folderopen ) \
-		FA_TAG( FA_FOLDEROPENO, fa::folderopeno ) \
+		FA_TAG( fileso, fa::fileso ) \
+		FA_TAG( folder, fa::folder ) \
+		FA_TAG( foldero, fa::foldero ) \
+		FA_TAG( folderopen, fa::folderopen ) \
+		FA_TAG( folderopeno, fa::folderopeno ) \
 \
-		FA_TAG( FA_HDDO, fa::hddo ) \
-		FA_TAG( FA_LIST, fa::list ) \
-		FA_TAG( FA_LISTALT, fa::listalt ) \
-		FA_TAG( FA_LISTOL, fa::listol ) \
-		FA_TAG( FA_LISTUL, fa::listul ) \
-		FA_TAG( FA_PAPERCLIP, fa::paperclip ) \
-		FA_TAG( FA_STICKYNOTE, fa::stickynote ) \
+		FA_TAG( hddo, fa::hddo ) \
+		FA_TAG( list, fa::list ) \
+		FA_TAG( listalt, fa::listalt ) \
+		FA_TAG( listol, fa::listol ) \
+		FA_TAG( listul, fa::listul ) \
+		FA_TAG( paperclip, fa::paperclip ) \
+		FA_TAG( stickynote, fa::stickynote ) \
 \
-		FA_TAG( FA_HISTORY, fa::history )\
-		FA_TAG( FA_HOME, fa::home )\
-		FA_TAG( FA_DOWNLOAD, fa::download ) \
-		FA_TAG( FA_MUSIC, fa::music ) \
-		FA_TAG( FA_VIDEOCAMERA, fa::videocamera ) \
-		FA_TAG( FA_TRASHO, fa::trasho ) \
-		FA_TAG( FA_REFRESH, fa::refresh )\
-		FA_TAG( FA_REPEAT, fa::repeat )\
-		FA_TAG( FA_RANDOM, fa::random )\
+		FA_TAG( history, fa::history )\
+		FA_TAG( home, fa::home )\
+		FA_TAG( download, fa::download ) \
+		FA_TAG( music, fa::music ) \
+		FA_TAG( videocamera, fa::videocamera ) \
+		FA_TAG( trasho, fa::trasho ) \
+		FA_TAG( refresh, fa::refresh )\
+		FA_TAG( repeat, fa::repeat )\
+		FA_TAG( random, fa::random )\
 \
-		FA_TAG( FA_WINDOWMAXIMIZE, fa::windowmaximize ) \
-		FA_TAG( FA_WINDOWMINIMIZE, fa::windowminimize ) \
-		FA_TAG( FA_WINDOWCLOSE, fa::windowclose ) \
-		FA_TAG( FA_WINDOWCLOSEO, fa::windowcloseo )\
-		FA_TAG( FA_CLOSE, fa::close ) \
+		FA_TAG( windowmaximize, fa::windowmaximize ) \
+		FA_TAG( windowminimize, fa::windowminimize ) \
+		FA_TAG( windowclose, fa::windowclose ) \
+		FA_TAG( windowcloseo, fa::windowcloseo )\
+		FA_TAG( close, fa::close ) \
 \
-		FA_TAG( FA_PLUS, fa::plus ) \
-		FA_TAG( FA_MINUS, fa::minus ) \
-		FA_TAG( FA_CHECK, fa::check ) \
-		FA_TAG( FA_EDIT, fa::edit ) \
-		FA_TAG( FA_STICKYNOTEO, fa::stickynoteo ) \
-		FA_TAG( FA_PAINTBRUSH, fa::paintbrush ) \
+		FA_TAG( plus, fa::plus ) \
+		FA_TAG( minus, fa::minus ) \
+		FA_TAG( check, fa::check ) \
+		FA_TAG( edit, fa::edit ) \
+		FA_TAG( stickynoteo, fa::stickynoteo ) \
+		FA_TAG( paintbrush, fa::paintbrush ) \
 \
-		FA_TAG( FA_SEARCH, fa::search )\
-		FA_TAG( FA_SEARCHMINUS, fa::searchminus )\
-		FA_TAG( FA_SEARCHPLUS, fa::searchplus )\
+		FA_TAG( search, fa::search )\
+		FA_TAG( searchminus, fa::searchminus )\
+		FA_TAG( searchplus, fa::searchplus )\
 \
-		FA_TAG( FA_REGISTERED, fa::registered )\
-		FA_TAG( FA_ARCHIVE, fa::archive )\
-		FA_TAG( FA_WRENCH,fa::wrench) \
-		FA_TAG( FA_TASKS, fa::tasks ) \
-		FA_TAG( FA_GAMEPAD, fa::gamepad ) \
-		FA_TAG( FA_PRODUCTHUNT, fa::producthunt ) \
-		FA_TAG( FA_WPEXPLORER, fa::wpexplorer ) \
-		FA_TAG( FA_WPFORMS, fa::wpforms )
+		FA_TAG( registered, fa::registered )\
+		FA_TAG( archive, fa::archive )\
+		FA_TAG( wrench,fa::wrench) \
+		FA_TAG( tasks, fa::tasks ) \
+		FA_TAG( gamepad, fa::gamepad ) \
+		FA_TAG( producthunt, fa::producthunt ) \
+		FA_TAG( windows, fa::windows ) \
+		FA_TAG( wpexplorer, fa::wpexplorer ) \
+		FA_TAG( wpforms, fa::wpforms )
 
+		namespace FA {
 		FAA_LIST
-
+	}
 		extern QtAwesome* awesome;
 }
 

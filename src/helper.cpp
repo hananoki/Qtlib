@@ -19,6 +19,7 @@
 #ifdef Q_OS_WIN
 #include <QtWin>
 #include <shlwapi.h>
+#pragma comment (lib,"Shlwapi.lib")
 #endif
 
 

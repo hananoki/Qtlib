@@ -4,6 +4,7 @@
 #include <QGroupBox>
 #include <QRadioButton>
 #include <QPushButton>
+#include <QLineEdit>
 
 namespace groupBox {
 	/////////////////////////////////////////
@@ -25,5 +26,14 @@ namespace pushbutton {
 	}
 	void pressed( QPushButton* w, std::function<void()> func ) {
 		QObject::connect( w, &QPushButton::pressed, func );
+	}
+}
+
+namespace lineedit {
+	void textEdited( QLineEdit* w, std::function<void( const QString& )> func ) {
+		QObject::connect( w, &QLineEdit::textEdited, func );
+	}
+	void textChanged( QLineEdit* w, std::function<void( const QString& )> func ) {
+		QObject::connect( w, &QLineEdit::textChanged, func );
 	}
 }

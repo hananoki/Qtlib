@@ -11,6 +11,7 @@
 #include <QIcon>
 #include <QFileInfo>
 #include <QApplication>
+#include <QDir>
 
 #include "QtAwesome/QtAwesome.h"
 
@@ -29,27 +30,21 @@ namespace icon {
 
 		bool nonCache = false;
 		auto suffix = fileInfo.suffix();
-		if( suffix == "exe" || fileInfo.isDir() ) {
+		if( suffix == "exe" || suffix == "ico" ) {
 			nonCache = true;
-			//if( fileInfo.isDir() ) {
-			//	flags += SHGFI_ICONLOCATION;
-			//	flags =
-			//		/*			SHGFI_ATTRIBUTES
-			//				| SHGFI_ATTR_SPECIFIED*/
-			//				//| SHGFI_DISPLAYNAME
-			//				//| SHGFI_EXETYPE
-			//		SHGFI_ICON
-			//		//| SHGFI_ICONLOCATION
-			//		| SHGFI_SMALLICON
-			//		//| SHGFI_LARGEICON
-			//		| SHGFI_OPENICON
-			//		| SHGFI_USEFILEATTRIBUTES
-			//		//| SHGFI_OVERLAYINDEX
-			//		//| SHGFI_SHELLICONSIZE
-			//		//| SHGFI_SYSICONINDEX
-			//		//| SHGFI_TYPENAME
-			//		;
-			//}
+		}
+		else if( fileInfo.isRoot() ) {
+			if( iconCache.contains( filePath ) ) {
+				return iconCache[ filePath ];
+			}
+		}
+		else if( fileInfo.isDir() ) {
+			// フォルダは * で通常使用できない名前で登録してある
+			if( iconCache.contains( "*" ) ) {
+				return iconCache[ "*" ];
+			}
+			QString ss = path::separatorToOS( QDir::currentPath() );
+			filePathW = $::toWCharPtr( ss );
 		}
 		else {
 			if( iconCache.contains( fileInfo.suffix() ) ) {
@@ -58,6 +53,7 @@ namespace icon {
 		}
 		SHFILEINFO info;
 		ZeroMemory( &info, sizeof( SHFILEINFO ) );
+		
 		const HRESULT hr = SHGetFileInfo(
 			filePathW,
 			fileInfo.isDir() ? FILE_ATTRIBUTE_DIRECTORY : 0,
@@ -67,7 +63,15 @@ namespace icon {
 			auto pixmap = QtWin::fromHICON( info.hIcon );
 			auto icon = QIcon( pixmap );
 			if( !nonCache ) {
-				iconCache.insert( fileInfo.suffix(), icon );
+				if( fileInfo.isRoot() ) {
+					iconCache.insert( filePath, icon );
+				}
+				else if( fileInfo.isDir() ) {
+					iconCache.insert( "*", icon );
+				}
+				else {
+					iconCache.insert( fileInfo.suffix(), icon );
+				}
 			}
 			return icon;
 		}
@@ -105,9 +109,9 @@ namespace icon {
 	QIcon aa () { \
 		return awesome->icon( en,variantMap ); \
 	}
-
-	FAA_LIST
-
+	namespace FA {
+		FAA_LIST
+	}
 }
 
 

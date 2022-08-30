@@ -12,12 +12,13 @@
 
 
 namespace json {
-	QSize toSize( const QJsonValue& s );
-	QPoint toPoint( const QJsonValue& s );
-	QStringList toStringList( const QJsonValue& s );
-
+	
 	bool read( const QString& filePath, std::function<void( const QJsonObject& )> cb );
 	void write( const QString& filePath, std::function<void( QJsonObject& )> cb );
+
+	QStringList toStringList( const QJsonValue& s );
+	QSize toSize( const QJsonValue& s );
+	QPoint toPoint( const QJsonValue& s );
 
 	inline QString toString( const QPoint& q ) {
 		return QString( "%1 %2" ).arg( q.x() ).arg( q.y() );
@@ -25,6 +26,29 @@ namespace json {
 	inline QString toString( const QSize& q ) {
 		return QString( "%1 %2" ).arg( q.width() ).arg( q.height() );
 	}
+
+	template<typename  T>
+	inline void SetValue( QJsonObject& jsonObj, const QString& name, const T& value ) {
+		jsonObj[ name ] = value;
+	}
+
+
+
+	template<>
+	inline void SetValue<QPoint>( QJsonObject& jsonObj, const QString& name, const QPoint& value ) {
+		jsonObj[ name ] = json::toString( value );
+	}
+
+	template<>
+	inline void SetValue<QSize>( QJsonObject& jsonObj, const QString& name, const QSize& value ) {
+		jsonObj[ name ] = json::toString( value );
+	}
+
+	template<>
+	inline void SetValue<QStringList>( QJsonObject& jsonObj, const QString& name, const QStringList& value ) {
+		jsonObj[ name ] = QJsonArray::fromStringList( value );
+	}
+
 
 	template<typename  T>
 	inline T GetValue( const QJsonValue& value ) {
