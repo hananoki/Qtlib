@@ -38,7 +38,26 @@ namespace icon {
 
 #define FA_TAG(xxx,yyy) QIcon xxx ();
 #define FAA_LIST \
+		FA_TAG( arrowcircledown, fa::arrowcircledown ) \
+		FA_TAG( arrowcircleleft, fa::arrowcircleleft ) \
+		FA_TAG( arrowcircleodown, fa::arrowcircleodown ) \
+		FA_TAG( arrowcircleoleft, fa::arrowcircleoleft ) \
+\
+		FA_TAG( arrowcircleoright, fa::arrowcircleoright ) \
+		FA_TAG( arrowcircleoup, fa::arrowcircleoup ) \
+		FA_TAG( arrowcircleright, fa::arrowcircleright ) \
+		FA_TAG( arrowcircleup, fa::arrowcircleup ) \
+\
+		FA_TAG( arrowdown, fa::arrowdown ) \
+		FA_TAG( arrowleft, fa::arrowleft ) \
+		FA_TAG( arrowright, fa::arrowright ) \
 		FA_TAG( arrowup, fa::arrowup ) \
+\
+		FA_TAG( arrows, fa::arrows ) \
+		FA_TAG( arrowsalt, fa::arrowsalt ) \
+		FA_TAG( arrowsh, fa::arrowsh ) \
+		FA_TAG( arrowsv, fa::arrowsv ) \
+\
 		FA_TAG( bookmark, fa::bookmark ) \
 		FA_TAG( bookmarko, fa::bookmarko ) \
 		FA_TAG( briefcase, fa::briefcase ) \
@@ -54,11 +73,34 @@ namespace icon {
 		FA_TAG( feed, fa::feed ) \
 		FA_TAG( ellipsisv, fa::ellipsisv ) \
 \
+		FA_TAG( star, fa::star ) \
+		FA_TAG( starhalf, fa::starhalf ) \
+		FA_TAG( starhalfempty, fa::starhalfempty ) \
+		FA_TAG( starhalffull, fa::starhalffull ) \
+		FA_TAG( starhalfo, fa::starhalfo ) \
+		FA_TAG( staro, fa::staro ) \
+\
 		FA_TAG( fileso, fa::fileso ) \
 		FA_TAG( folder, fa::folder ) \
 		FA_TAG( foldero, fa::foldero ) \
 		FA_TAG( folderopen, fa::folderopen ) \
 		FA_TAG( folderopeno, fa::folderopeno ) \
+\
+		FA_TAG( square, fa::square ) \
+		FA_TAG( squareo, fa::squareo ) \
+		FA_TAG( hsquare, fa::hsquare ) \
+		FA_TAG( foursquare, fa::foursquare ) \
+		FA_TAG( checkcircle, fa::checkcircle ) \
+		FA_TAG( checkcircleo, fa::checkcircleo ) \
+		FA_TAG( checksquare, fa::checksquare ) \
+		FA_TAG( checksquareo, fa::checksquareo ) \
+\
+		FA_TAG( toggledown, fa::toggledown ) \
+		FA_TAG( toggleleft, fa::toggleleft ) \
+		FA_TAG( toggleoff, fa::toggleoff ) \
+		FA_TAG( toggleon, fa::toggleon ) \
+		FA_TAG( toggleright, fa::toggleright ) \
+		FA_TAG( toggleup, fa::toggleup ) \
 \
 		FA_TAG( hddo, fa::hddo ) \
 		FA_TAG( list, fa::list ) \
@@ -73,6 +115,7 @@ namespace icon {
 		FA_TAG( download, fa::download ) \
 		FA_TAG( music, fa::music ) \
 		FA_TAG( videocamera, fa::videocamera ) \
+		FA_TAG( trash, fa::trash ) \
 		FA_TAG( trasho, fa::trasho ) \
 		FA_TAG( refresh, fa::refresh )\
 		FA_TAG( repeat, fa::repeat )\

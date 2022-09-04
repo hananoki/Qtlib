@@ -17,9 +17,11 @@ include(src/QtAwesome/QtAwesome.pri)
 INCLUDEPATH += src
 
 SOURCES += \
+    src/QtFusionStyle.cpp \
     src/groupBox.cpp \
-    src/QClickableLabel.cpp \
-    src/QFlatPushButton.cpp \
+    src/QtClickableLabel.cpp \
+    src/QtFlatPushButton.cpp \
+    src/QtFramelessWindow.cpp \
     src/comboBox.cpp \
     src/fs.cpp \
     src/helper.cpp \
@@ -29,11 +31,13 @@ SOURCES += \
     src/path.cpp
 
 HEADERS += \
+    src/QtFusionStyle.h \
     src/QtSignalBlocker.h \
     src/Qtlib.h \
     src/groupBox.h \
-    src/QClickableLabel.h \
-    src/QFlatPushButton.h \
+    src/QtClickableLabel.h \
+    src/QtFlatPushButton.h \
+    src/QtFramelessWindow.h \
     src/comboBox.h \
     src/fs.h \
     src/helper.h \

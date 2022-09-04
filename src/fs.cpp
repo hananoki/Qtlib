@@ -50,6 +50,42 @@ void tsv::parser( const QString& filepath, std::function<void( const QStringList
 }
 
 namespace fs {
+	inline void internalDirIterator( QString path , QString searchPattern, QDir::Filters filters, SearchOption searchOption, std::function<void( QString )> cb ){
+		
+		QStringList nameFilters = searchPattern.split( ";" );
+
+		QDirIterator::IteratorFlags iteratorFlags = QDirIterator::IteratorFlag::NoIteratorFlags;
+		if( searchOption == SearchOption::AllDirectories ) {
+			iteratorFlags = QDirIterator::IteratorFlag::Subdirectories;
+		}
+		iteratorFlags |= QDirIterator::IteratorFlag::FollowSymlinks;
+
+		QDirIterator it( path, nameFilters, filters, iteratorFlags );
+		while( it.hasNext() ) {
+			cb( it.next() );
+		}
+	}
+
+	void enumerateFiles( QString path, QString searchPattern, SearchOption searchOption, std::function<void( QString )> cb ) {
+		internalDirIterator(
+			path,
+			searchPattern,
+			QDir::Files,
+			searchOption,
+			cb
+		);
+	}
+
+	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, std::function<void( QString )> cb ) {
+		internalDirIterator(
+			path,
+			searchPattern,
+			QDir::Dirs | QDir::NoDot | QDir::NoDotDot,
+			searchOption,
+			cb
+		);
+	}
+
 
 	QStringList getFiles( QString path, QString searchPattern, SearchOption searchOption ) {
 		QDir::Filters filters = QDir::Files;
@@ -114,6 +150,15 @@ namespace fs {
 		}
 	}
 
+	void rmDir( const QString& path ) {
+		//if( isExistFile( src ) ) {
+		//	QFile f( src );
+		//	f.rename( dst );
+		//}
+		auto ff=QFileInfo( path );
+		auto abso = ff.absolutePath();
+		QDir(path::getDirectoryName( ff.absolutePath() )).rmdir( path::getFileName( path ) );
+	}
 
 	QByteArray readAll( const QString& fileName ) {
 		QFile file( fileName );

@@ -2,11 +2,11 @@
 
 #include <QLabel>
 
-class QClickableLabel : public QLabel {
+class QtClickableLabel : public QLabel {
 	Q_OBJECT
 public:
-	explicit QClickableLabel( QWidget* parent = 0, const QString& text = "" );
-	~QClickableLabel();
+	explicit QtClickableLabel( QWidget* parent = 0, const QString& text = "" );
+	virtual ~QtClickableLabel();
 
 signals:
 	void clicked();

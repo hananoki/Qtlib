@@ -12,6 +12,6 @@
 #include "qtlinq.h"
 #pragma warning(pop)
 
-#include "QFlatPushButton.h"
-#include "QClickableLabel.h"
+#include "QtFlatPushButton.h"
+#include "QtClickableLabel.h"
 #include "QtSignalBlocker.h"

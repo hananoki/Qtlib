@@ -5,6 +5,7 @@
 #include <QRadioButton>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QTreeWidget>
 
 namespace groupBox {
 	/////////////////////////////////////////
@@ -20,7 +21,7 @@ namespace groupBox {
 	}
 }
 
-namespace pushbutton {
+namespace $PushButton {
 	void clicked( QPushButton* w, std::function<void( bool )> func ) {
 		QObject::connect( w, &QPushButton::clicked, func );
 	}
@@ -37,3 +38,17 @@ namespace lineedit {
 		QObject::connect( w, &QLineEdit::textChanged, func );
 	}
 }
+
+namespace $TreeWidget {
+	void itemClicked( QTreeWidget* w, std::function<void( QTreeWidgetItem* , int )> func ) {
+		QObject::connect( w, &QTreeWidget::itemClicked, func );
+	}
+}
+
+//	connect( treeWidget, &QTreeWidget::itemClicked, [&]( QTreeWidgetItem* item, int column ) {
+//	static_cast<ItemBase*>( item )->itemClicked();
+//	auto* folder = dynamic_cast<ItemFolder*>( item );
+//	if( !folder )return;
+//	make2( folder );
+//	AppHelper::setSelectFolderPath( folder->path );
+//} );

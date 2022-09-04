@@ -111,10 +111,12 @@
   <QtRcc><InitFuncName>QtAwesome</InitFuncName><Compression>default</Compression><ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription><QtRccDir>$(Configuration)</QtRccDir><QtRccFileName>qrc_%(Filename).cpp</QtRccFileName></QtRcc><QtMoc><CompilerFlavor>msvc</CompilerFlavor><Include>./$(Configuration)/moc_predefs.h</Include><ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription><DynamicSource>output</DynamicSource><QtMocDir>$(Configuration)</QtMocDir><QtMocFileName>moc_%(Filename).cpp</QtMocFileName></QtMoc></ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\HTreeWidget.cpp" />
-    <ClCompile Include="src\QClickableLabel.cpp" />
-    <ClCompile Include="src\QFlatPushButton.cpp" />
     <ClCompile Include="src\QtAwesome\QtAwesome.cpp" />
     <ClCompile Include="src\QtAwesome\QtAwesomeAnim.cpp" />
+    <ClCompile Include="src\QtClickableLabel.cpp" />
+    <ClCompile Include="src\QtFlatPushButton.cpp" />
+    <ClCompile Include="src\QtFramelessWindow.cpp" />
+    <ClCompile Include="src\QtFusionStyle.cpp" />
     <ClCompile Include="src\comboBox.cpp" />
     <ClCompile Include="src\fs.cpp" />
     <ClCompile Include="src\groupBox.cpp" />
@@ -125,26 +127,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\HTreeWidget.h" />
-    <QtMoc Include="src\QClickableLabel.h">
-      
-      
-      
-      
-      
-      
-      
-      
-    </QtMoc>
-    <QtMoc Include="src\QFlatPushButton.h">
-      
-      
-      
-      
-      
-      
-      
-      
-    </QtMoc>
     <QtMoc Include="src\QtAwesome\QtAwesome.h">
       
       
@@ -165,6 +147,37 @@
       
       
     </QtMoc>
+    <QtMoc Include="src\QtClickableLabel.h">
+      
+      
+      
+      
+      
+      
+      
+      
+    </QtMoc>
+    <QtMoc Include="src\QtFlatPushButton.h">
+      
+      
+      
+      
+      
+      
+      
+      
+    </QtMoc>
+    <QtMoc Include="src\QtFramelessWindow.h">
+      
+      
+      
+      
+      
+      
+      
+      
+    </QtMoc>
+    <ClInclude Include="src\QtFusionStyle.h" />
     <ClInclude Include="src\QtSignalBlocker.h" />
     <ClInclude Include="src\Qtlib.h" />
     <ClInclude Include="src\comboBox.h" />
@@ -178,6 +191,8 @@
     <ClInclude Include="src\qtlinq.h" />
   </ItemGroup>
   <ItemGroup>
+    
+    
     
     
     

@@ -1,17 +1,17 @@
-#include "QFlatPushButton.h"
+#include "QtFlatPushButton.h"
 #include <QEvent>
 
-QFlatPushButton::QFlatPushButton( QWidget* parent ) :
+QtFlatPushButton::QtFlatPushButton( QWidget* parent ) :
 	QPushButton( parent )
 {
 	setFlat( true );
 }
 
-void QFlatPushButton::hoverLeave(){
+void QtFlatPushButton::hoverLeave(){
 	setFlat( true );
 }
 
-bool QFlatPushButton::event( QEvent* event ) {
+bool QtFlatPushButton::event( QEvent* event ) {
 	if( event->type() == QEvent::HoverEnter ) {
 		setFlat( false );
 	}

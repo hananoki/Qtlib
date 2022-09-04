@@ -32,6 +32,8 @@ namespace fs {
 	void mkdir( const QString& path );
 	void mv( const QString& src, const QString& dst );
 
+	void rmDir( const QString& path );
+
 	QByteArray readAll( const QString& fileName );
 	bool writeByteArray( const QString& fileName, const QByteArray& data );
 
@@ -47,6 +49,10 @@ namespace fs {
 	bool isExistFile( const QString& path );
 	bool isExistDirectory( const QString& path );
 	bool isWritableFile( const QString& path );
+
+	void enumerateFiles( QString path, QString searchPattern, SearchOption searchOption, std::function<void( QString )> cb );
+	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, std::function<void( QString )> cb );
+
 	QStringList getFiles( QString path, QString searchPattern, SearchOption searchOption = SearchOption::TopDirectoryOnly );
 	QStringList getDirectories( QString path, QString searchPattern, SearchOption searchOption = SearchOption::TopDirectoryOnly );
 }

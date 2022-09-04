@@ -40,16 +40,22 @@
     <ClCompile Include="src\HTreeWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\QClickableLabel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\QFlatPushButton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\QtAwesome\QtAwesome.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\QtAwesome\QtAwesomeAnim.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\QtClickableLabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\QtFlatPushButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\QtFramelessWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\QtFusionStyle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\comboBox.cpp">
@@ -78,18 +84,24 @@
     <ClInclude Include="src\HTreeWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <QtMoc Include="src\QClickableLabel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\QFlatPushButton.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="src\QtAwesome\QtAwesome.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\QtAwesome\QtAwesomeAnim.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\QtClickableLabel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\QtFlatPushButton.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\QtFramelessWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="src\QtFusionStyle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\QtSignalBlocker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -125,6 +137,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    
+    
     
     
     
