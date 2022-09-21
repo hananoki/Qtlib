@@ -12,9 +12,9 @@ public:
 
 
 //////////////////////////////////////////////////////////////////////////////////
-class HTreeWidget : public QTreeWidget {
+class QtTreeWidget : public QTreeWidget {
 public:
-	HTreeWidget( QWidget* parent = nullptr );
+	QtTreeWidget( QWidget* parent = nullptr );
 
 	template <class T>
 	T* currentItem();
@@ -25,12 +25,14 @@ public:
 
 private:
 	void internalGetExpandNodeString( QTreeWidgetItem* node, QStringList& result );
+
+	void keyPressEvent( QKeyEvent* event );
 };
 
 
 
 /////////////////////////////////////////
 template <class T>
-T* HTreeWidget::currentItem() {
-	return (T*) ( selectedItems()[ 0 ] );
+T* QtTreeWidget::currentItem() {
+	return dynamic_cast<T*>( selectedItems()[ 0 ] );
 }

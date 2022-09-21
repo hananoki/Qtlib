@@ -1,4 +1,4 @@
-#include "path.h"
+﻿#include "path.h"
 
 #include <QFileInfo>
 #include <QDir>
@@ -26,22 +26,22 @@ namespace path {
 	}
 
 	/////////////////////////////////////////
-	QString getExtension( const QString& filePath ) {
-		auto ext = QFileInfo( filePath ).completeSuffix();
-		if( ext.isEmpty() )return "";
-		return "." + ext;
-	}
+	//QString getExtension( const QString& filePath ) {
+	//	auto ext = QFileInfo( filePath ).completeSuffix();
+	//	if( ext.isEmpty() )return "";
+	//	return "." + ext;
+	//}
 
 
 	/////////////////////////////////////////
-	//QString changeExtention( const QString& filepath, const QString& ext ) {
-	//	QFileInfo fileInfo( filepath );
-	//	QString dst = QString( "%1/%2%3" )
-	//		.arg( fileInfo.absolutePath() )
-	//		.arg( fileInfo.baseName() )
-	//		.arg( ext );
-	//	return dst;
-	//}
+	QString changeSuffix( const QString& filepath, const QString& suffix ) {
+		QFileInfo fileInfo( filepath );
+		QString dst = QString( "%1/%2.%3" )
+			.arg( fileInfo.absolutePath() )
+			.arg( fileInfo.baseName() )
+			.arg( suffix );
+		return dst;
+	}
 
 
 	/////////////////////////////////////////

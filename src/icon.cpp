@@ -1,4 +1,4 @@
-#include "icon.h"
+ï»¿#include "icon.h"
 #include "helper.h"
 #include "path.h"
 
@@ -39,11 +39,11 @@ namespace icon {
 			}
 		}
 		else if( fileInfo.isDir() ) {
-			// ƒtƒHƒ‹ƒ_‚Í * ‚Å’Êíg—p‚Å‚«‚È‚¢–¼‘O‚Å“o˜^‚µ‚Ä‚ ‚é
+			// ãƒ•ã‚©ãƒ«ãƒ€ã¯ * ã§é€šå¸¸ä½¿ç”¨ã§ããªã„åå‰ã§ç™»éŒ²ã—ã¦ã‚ã‚‹
 			if( iconCache.contains( "*" ) ) {
 				return iconCache[ "*" ];
 			}
-			QString ss = path::separatorToOS( QDir::currentPath() );
+			ss = path::separatorToOS( QDir::currentPath() );
 			filePathW = $::toWCharPtr( ss );
 		}
 		else {

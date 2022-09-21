@@ -75,6 +75,7 @@ namespace $ {
 		accept( dialog );
 	}
 
+	void showInExplorer( const QString& path );
 
 
 	inline

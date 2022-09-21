@@ -18,14 +18,15 @@ INCLUDEPATH += src
 
 SOURCES += \
     src/QtFusionStyle.cpp \
+    src/QtTreeWidget.cpp \
     src/groupBox.cpp \
     src/QtClickableLabel.cpp \
     src/QtFlatPushButton.cpp \
     src/QtFramelessWindow.cpp \
+    src/DarkWindow.cpp \
     src/comboBox.cpp \
     src/fs.cpp \
     src/helper.cpp \
-    src/HTreeWidget.cpp \
     src/icon.cpp \
     src/json.cpp \
     src/path.cpp
@@ -33,11 +34,13 @@ SOURCES += \
 HEADERS += \
     src/QtFusionStyle.h \
     src/QtSignalBlocker.h \
+    src/QtTreeWidget.h \
     src/Qtlib.h \
     src/groupBox.h \
     src/QtClickableLabel.h \
     src/QtFlatPushButton.h \
     src/QtFramelessWindow.h \
+    src/DarkWindow.h \
     src/comboBox.h \
     src/fs.h \
     src/helper.h \
@@ -45,8 +48,7 @@ HEADERS += \
     src/json.h \
     src/qtlinq.h \
     src/icon.h \
-    src/path.h \
-    src/HTreeWidget.h
+    src/path.h
 
 # Default rules for deployment.
 unix {

@@ -1,4 +1,4 @@
-#include "QtFramelessWindow.h"
+ï»¿#include "QtFramelessWindow.h"
 
 #include <QApplication>
 #include <QCloseEvent>
@@ -46,10 +46,10 @@ void QtFramelessWindow::addCaptionWidget( QWidget* widget ) {
 bool QtFramelessWindow::nativeEvent( const QByteArray& eventType, void* message, long* result ) {
 	MSG* msg = static_cast<MSG*>( message );
 
-	////ƒ}ƒEƒXƒ|ƒCƒ“ƒ^‚ªƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ“à‚É‚ ‚é‚©
+	////ãƒžã‚¦ã‚¹ãƒã‚¤ãƒ³ã‚¿ãŒã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆé ˜åŸŸå†…ã«ã‚ã‚‹ã‹
 	//if( ( msg->message == WM_NCHITTEST ) &&
 	//	( *result == HTCLIENT ) ) {
-	//	//ƒ}ƒEƒX‚ªƒ^ƒCƒgƒ‹ƒo[‚É‚ ‚é‚Ó‚è‚ð‚·‚é
+	//	//ãƒžã‚¦ã‚¹ãŒã‚¿ã‚¤ãƒˆãƒ«ãƒãƒ¼ã«ã‚ã‚‹ãµã‚Šã‚’ã™ã‚‹
 	//	*result =  HTCAPTION;
 	//}
 	if( msg->message == WM_NCCALCSIZE ) {

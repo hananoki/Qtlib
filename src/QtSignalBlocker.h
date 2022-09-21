@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <QWidget>
 
@@ -9,11 +9,13 @@ public:
 		for( auto& w : p->findChildren<QWidget*>() ) {
 			w->blockSignals( true );
 		}
+		p->blockSignals( true );
 	}
 
 	~QtSignalBlocker() {
 		for( auto& w : self->findChildren<QWidget*>() ) {
 			w->blockSignals( false );
 		}
+		self->blockSignals( false );
 	}
 };

@@ -1,4 +1,4 @@
-#include "QtFusionStyle.h"
+﻿#include "QtFusionStyle.h"
 
 #include <QApplication>
 #include <QStyleFactory>

@@ -144,11 +144,16 @@ namespace fs {
 
 
 	void mv( const QString& src, const QString& dst ) {
+		if( isExistDirectory( src ) ) {
+			QDir dir( path::getDirectoryName( src ) );
+			dir.rename( path::getFileName( src ), path::getFileName( dst ) );
+		}
 		if( isExistFile( src ) ) {
 			QFile f( src );
 			f.rename( dst );
 		}
 	}
+
 
 	void rmDir( const QString& path ) {
 		//if( isExistFile( src ) ) {
@@ -216,6 +221,7 @@ namespace fs {
 
 
 	void writeAllLines( const QString& filePath, const QStringList& lines, Encoding encoding ) {
+		fs::mkdir( path::getDirectoryName( filePath ) );
 		QString errStr;
 		QFileInfo fileInfo( filePath );
 		//if( fileInfo.exists() ) {

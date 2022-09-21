@@ -1,4 +1,4 @@
-#include "QtFlatPushButton.h"
+﻿#include "QtFlatPushButton.h"
 #include <QEvent>
 
 QtFlatPushButton::QtFlatPushButton( QWidget* parent ) :

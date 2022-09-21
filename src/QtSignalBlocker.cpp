@@ -1,4 +1,4 @@
-#include "QtSignalBlocker.h"
+﻿#include "QtSignalBlocker.h"
 
 QtSignalBlocker::QtSignalBlocker()
 {

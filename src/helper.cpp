@@ -10,6 +10,8 @@
 #include <QGroupBox>
 #include <QRadioButton>
 #include <QSettings>
+#include <QDesktopServices>
+#include <QUrl>
 
 //#define ENABLE_SOUND
 #ifdef ENABLE_SOUND
@@ -97,6 +99,10 @@ namespace $ {
 		return settings.value( "AppsUseLightTheme" ) == 0;
 	}
 #endif
+
+	void showInExplorer( const QString& path ) {
+		QDesktopServices::openUrl( QUrl::fromLocalFile( path ) );
+	}
 
 #ifdef ENABLE_SOUND
 
