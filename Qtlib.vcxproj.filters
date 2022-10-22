@@ -1,6 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
     <Filter Include="Generated Files">
       <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
@@ -40,34 +50,34 @@
     <ClCompile Include="src\DarkWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\HClickableLabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HFlatPushButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HFramelessWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HFusionStyle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HTreeWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\QtAwesome\QtAwesome.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\QtAwesome\QtAwesomeAnim.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\QtClickableLabel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\QtFlatPushButton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\QtFramelessWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\QtFusionStyle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\QtTreeWidget.cpp">
+    <ClCompile Include="src\ui\UIStatusBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\comboBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\fs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\groupBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\helper.cpp">
@@ -82,38 +92,47 @@
     <ClCompile Include="src\path.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\widgets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\DarkWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\HClickableLabel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\HFlatPushButton.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\HFramelessWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="src\HFusionStyle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HSignalBlocker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HTreeWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HWorker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <QtMoc Include="src\QtAwesome\QtAwesome.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\QtAwesome\QtAwesomeAnim.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\QtClickableLabel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\QtFlatPushButton.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\QtFramelessWindow.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <ClInclude Include="src\QtFusionStyle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\QtSignalBlocker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\QtTreeWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Qtlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <QtMoc Include="src\ui\UIStatusBar.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
     <ClInclude Include="src\comboBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -121,9 +140,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\fs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\groupBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\helper.h">
@@ -141,8 +157,13 @@
     <ClInclude Include="src\qtlinq.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\widgets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    
+    
     
     
     
@@ -163,6 +184,12 @@
     </CustomBuild>
     
     
+    
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="src\ui\UIStatusBar.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="src\QtAwesome\QtAwesome.qrc">

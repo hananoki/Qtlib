@@ -115,25 +115,3 @@ namespace icon {
 }
 
 
-//#define ICON_FA_PAPERCLIP awesome->icon( fa::paperclip )
-//#define ICON_FA_STICKYNOTE awesome->icon( fa::stickynote )
-
-//#define ICON_FA_BRIEFCASE awesome->icon( fa::briefcase )
-#define ICON_FA_BOOK awesome->icon( fa::book )
-#define ICON_FA_STICKYNOTEO awesome->icon( fa::stickynoteo )
-#define ICON_FA_ARCHIVE awesome->icon( fa::archive )
-#define ICON_FA_CODEFORK awesome->icon( fa::codefork )
-#define ICON_FA_CODEPEN awesome->icon( fa::codepen )
-#define ICON_FA_CODE awesome->icon( fa::code )
-#define ICON_FA_GEARS awesome->icon( fa::gears )
-#define ICON_FA_COG awesome->icon( fa::cog )
-#define ICON_FA_COGS awesome->icon( fa::cogs )
-#define ICON_FA_PAINTBRUSH awesome->icon( fa::paintbrush )
-//#define ICON_FA_PLUS awesome->icon( fa::plus )
-//#define ICON_FA_MINUS awesome->icon( fa::minus )
-//#define ICON_FA_CHECK awesome->icon( fa::check )
-#define ICON_FA_COMMENT awesome->icon( fa::comment )
-//#define ICON_FA_EDIT awesome->icon( fa::edit )
-#define ICON_FA_ARROWSALT awesome->icon( fa::arrowsalt )
-//#define ICON_FA_TRASH awesome->icon( fa::trasho )
-

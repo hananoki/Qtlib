@@ -1,4 +1,4 @@
-﻿#include "groupBox.h"
+﻿#include "widgets.h"
 
 #include <QList>
 #include <QGroupBox>
@@ -9,6 +9,8 @@
 #include <QAction>
 #include <QCheckBox>
 #include <QToolButton>
+#include <QSlider>
+#include <QListWidget>
 
 namespace $GroupBox {
 	/////////////////////////////////////////
@@ -40,29 +42,53 @@ namespace $ToolButton {
 }
 
 namespace $CheckBox {
-	void stateChanged( QCheckBox* w, std::function<void( int )> func ) {
+	void stateChanged( QCheckBox* w, std::function<void( int state )> func ) {
 		QObject::connect( w, &QCheckBox::stateChanged, func );
 	}
 }
 
+namespace $RadioButton {
+	void toggled( QRadioButton* w, std::function<void( bool checked )> func ) {
+		QObject::connect( w, &QRadioButton::toggled, func );
+	}
+}
+
 namespace $LineEdit {
-	void textEdited( QLineEdit* w, std::function<void( const QString& )> func ) {
+	void textEdited( QLineEdit* w, std::function<void( const QString& text )> func ) {
 		QObject::connect( w, &QLineEdit::textEdited, func );
 	}
-	void textChanged( QLineEdit* w, std::function<void( const QString& )> func ) {
+	void textChanged( QLineEdit* w, std::function<void( const QString& text )> func ) {
 		QObject::connect( w, &QLineEdit::textChanged, func );
 	}
 }
 
+namespace $Slider {
+	void valueChanged( QSlider* w, std::function<void( int value )> func ) {
+		QObject::connect( w, &QSlider::valueChanged, func );
+	}
+}
+
 namespace $TreeWidget {
-	void itemClicked( QTreeWidget* w, std::function<void( QTreeWidgetItem*, int )> func ) {
+	void itemClicked( QTreeWidget* w, std::function<void( QTreeWidgetItem* item, int column )> func ) {
 		QObject::connect( w, &QTreeWidget::itemClicked, func );
 	}
-	void itemChanged( QTreeWidget* w, std::function<void( QTreeWidgetItem*, int )> func ) {
+	void itemChanged( QTreeWidget* w, std::function<void( QTreeWidgetItem* item, int column )> func ) {
 		QObject::connect( w, &QTreeWidget::itemChanged, func );
 	}
 	void itemSelectionChanged( QTreeWidget* w, std::function<void( void )> func ) {
 		QObject::connect( w, &QTreeWidget::itemSelectionChanged, func );
+	}
+	void itemDoubleClicked( QTreeWidget* w, std::function<void( QTreeWidgetItem* item, int column )> func ) {
+		QObject::connect( w, &QTreeWidget::itemDoubleClicked, func );
+	}
+	void customContextMenuRequested( QTreeWidget* w, std::function<void( const QPoint& pos )> func ) {
+		QObject::connect( w, &QTreeWidget::customContextMenuRequested, func );
+	}
+}
+
+namespace $ListWidget {
+	void itemSelectionChanged( QListWidget* w, std::function<void( void )> func ) {
+		QObject::connect( w, &QListWidget::itemSelectionChanged, func );
 	}
 }
 
@@ -71,9 +97,12 @@ namespace $Action {
 		QObject::connect( w, &QAction::triggered, func );
 	}
 	QAction* create( const QString& text, std::function<void( void )> func ) {
-		return $Action::create( QIcon(), text, func );
+		return $Action::create( text, QIcon(), func );
 	}
-	QAction* create( const QIcon& icon, const QString& text, std::function<void( void )> func ) {
+	QAction* create( const QIcon& icon, std::function<void( void )> func ) {
+		return $Action::create( "", icon, func );
+	}
+	QAction* create( const QString& text, const QIcon& icon, std::function<void( void )> func ) {
 		QAction* a = new QAction( icon, text );
 		QObject::connect( a, &QAction::triggered, func );
 		return a;

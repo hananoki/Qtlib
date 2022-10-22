@@ -17,29 +17,30 @@ include(src/QtAwesome/QtAwesome.pri)
 INCLUDEPATH += src
 
 SOURCES += \
-    src/QtFusionStyle.cpp \
-    src/QtTreeWidget.cpp \
-    src/groupBox.cpp \
-    src/QtClickableLabel.cpp \
-    src/QtFlatPushButton.cpp \
-    src/QtFramelessWindow.cpp \
+    src/HClickableLabel.cpp \
+    src/HFlatPushButton.cpp \
+    src/HFramelessWindow.cpp \
+    src/HFusionStyle.cpp \
+    src/HTreeWidget.cpp \
     src/DarkWindow.cpp \
     src/comboBox.cpp \
     src/fs.cpp \
     src/helper.cpp \
     src/icon.cpp \
     src/json.cpp \
-    src/path.cpp
+    src/path.cpp \
+    src/ui/UIStatusBar.cpp \
+    src/widgets.cpp
 
 HEADERS += \
-    src/QtFusionStyle.h \
-    src/QtSignalBlocker.h \
-    src/QtTreeWidget.h \
+    src/HClickableLabel.h \
+    src/HFlatPushButton.h \
+    src/HFramelessWindow.h \
+    src/HFusionStyle.h \
+    src/HSignalBlocker.h \
+    src/HTreeWidget.h \
+    src/HWorker.h \
     src/Qtlib.h \
-    src/groupBox.h \
-    src/QtClickableLabel.h \
-    src/QtFlatPushButton.h \
-    src/QtFramelessWindow.h \
     src/DarkWindow.h \
     src/comboBox.h \
     src/fs.h \
@@ -48,7 +49,12 @@ HEADERS += \
     src/json.h \
     src/qtlinq.h \
     src/icon.h \
-    src/path.h
+    src/path.h \
+    src/ui/UIStatusBar.h \
+    src/widgets.h
+
+FORMS += \
+  src/ui/UIStatusBar.ui
 
 # Default rules for deployment.
 unix {

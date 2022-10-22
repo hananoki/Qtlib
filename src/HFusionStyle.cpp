@@ -1,16 +1,22 @@
-﻿#include "QtFusionStyle.h"
+﻿#include "HFusionStyle.h"
+#include "icon.h"
 
 #include <QApplication>
 #include <QStyleFactory>
 #include <QPalette>
 #include <QStyleFactory>
 
-QtFusionStyle::QtFusionStyle() {
+HFusionStyle::HFusionStyle() {
 }
 
 
-void QtFusionStyle::set(){
+void HFusionStyle::set( bool darkMode, bool initIcon ) {
+	if( initIcon ) {
+		icon::initQtAwesome( 0.9f, darkMode ? "#FFF" : "#000" );
+	}
 	qApp->setStyle( QStyleFactory::create( "Fusion" ) );
+	if( !darkMode )return;
+
 	QPalette darkPalette;
 
 	QColor darkColor = "#222222";// QColor( 45, 45, 45 );

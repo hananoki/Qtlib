@@ -15,4 +15,6 @@ namespace path {
 	QString separatorToSlash( QString s );
 }
 
-
+namespace environment {
+	QString currentDirectory(  );
+};

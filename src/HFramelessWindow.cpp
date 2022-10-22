@@ -1,4 +1,4 @@
-﻿#include "QtFramelessWindow.h"
+﻿#include "HFramelessWindow.h"
 
 #include <QApplication>
 #include <QCloseEvent>
@@ -12,16 +12,16 @@
 #endif
 
 
-class QtFramelessWindowPrivate {
+class HFramelessWindowPrivate {
 public:
 	QList< QWidget*> hitCaptionWidget;
 };
 
 
 /////////////////////////////////////////
-QtFramelessWindow::QtFramelessWindow( QWidget* parent )
+HFramelessWindow::HFramelessWindow( QWidget* parent )
 	: QMainWindow( parent )
-	, impl( new QtFramelessWindowPrivate() ) {
+	, impl( new HFramelessWindowPrivate() ) {
 
 #ifdef Q_OS_WIN
 	const MARGINS shadow = { 1, 1, 1, 1 };
@@ -31,11 +31,11 @@ QtFramelessWindow::QtFramelessWindow( QWidget* parent )
 
 
 /////////////////////////////////////////
-QtFramelessWindow::~QtFramelessWindow() {}
+HFramelessWindow::~HFramelessWindow() {}
 
 
 /////////////////////////////////////////
-void QtFramelessWindow::addCaptionWidget( QWidget* widget ) {
+void HFramelessWindow::addCaptionWidget( QWidget* widget ) {
 	impl->hitCaptionWidget << widget;
 }
 
@@ -43,7 +43,7 @@ void QtFramelessWindow::addCaptionWidget( QWidget* widget ) {
 
 #ifdef Q_OS_WIN
 /////////////////////////////////////////
-bool QtFramelessWindow::nativeEvent( const QByteArray& eventType, void* message, long* result ) {
+bool HFramelessWindow::nativeEvent( const QByteArray& eventType, void* message, long* result ) {
 	MSG* msg = static_cast<MSG*>( message );
 
 	////マウスポインタがクライアント領域内にあるか

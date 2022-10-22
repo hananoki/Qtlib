@@ -4,12 +4,26 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+#include <QMap>
 #include <QSize>
 #include <QPoint>
 #include <QStringList>
 
 #include <functional>
 
+#define DECLARE_ENUM(type) \
+namespace json { \
+	template<> \
+	inline type GetValue<type>( const QJsonValue& value ) { \
+		return (type) value.toInt(); \
+	} \
+	template<> \
+	inline void SetValue<type>( QJsonObject& jsonObj, const QString& name, const type& value ) { \
+		jsonObj[ name ] = (int) value; \
+	} \
+}
+
+using StringKeyValue = QMap<QString, QString>;
 
 namespace json {
 	
@@ -79,6 +93,30 @@ namespace json {
 	template<>
 	inline QPoint GetValue<QPoint>( const QJsonValue& value ) {
 		return toPoint( value );
+	}
+}
+
+
+namespace json {
+	template<>
+	inline StringKeyValue GetValue<StringKeyValue>( const QJsonValue& value ) {
+		StringKeyValue lst;
+		for( QJsonValue s : value.toArray() ) {
+			lst.insert( s[ "key" ].toString(), s[ "value" ].toString() );
+		}
+		return 	lst;
+	}
+
+	template<>
+	inline void SetValue<StringKeyValue>( QJsonObject& jsonObj, const QString& name, const StringKeyValue& value ) {
+		QJsonArray jsonArr;
+		for( auto& k : value.keys() ) {
+			QJsonObject jsObj;
+			jsObj[ "key" ] = k;
+			jsObj[ "value" ] = value[ k ];
+			jsonArr.append( jsObj );
+		}
+		jsonObj[ name ] = jsonArr;
 	}
 }
 

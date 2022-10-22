@@ -12,7 +12,7 @@ enum class Encoding : int {
 	UTF8N,
 };
 
-enum SearchOption {
+enum class SearchOption : int {
 	TopDirectoryOnly,
 	AllDirectories,
 };
@@ -30,6 +30,7 @@ public:
 
 namespace fs {
 	void mkdir( const QString& path );
+	void cp( const QString& src, const QString& dst );
 	void mv( const QString& src, const QString& dst );
 
 	void rmDir( const QString& path );
@@ -41,7 +42,10 @@ namespace fs {
 
 	QStringList readAllLines( const QString& filePath, Encoding encoding = Encoding::UTF8 );
 	void writeAllLines( const QString& filePath, const QStringList& lines, Encoding encoding = Encoding::UTF8 );
+
 	
+	void writeAllText( const QString& path, const QString& contents, Encoding encoding );
+
 	void moveToTrash( const QStringList& fileList );
 	int moveToTrash( const QString& fullPath );
 
@@ -50,8 +54,9 @@ namespace fs {
 	bool isExistDirectory( const QString& path );
 	bool isWritableFile( const QString& path );
 
-	void enumerateFiles( QString path, QString searchPattern, SearchOption searchOption, std::function<void( QString )> cb );
-	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, std::function<void( QString )> cb );
+	// ラムダ式戻り値bool: true 列挙を継続する false 列挙を中止する
+	void enumerateFiles( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( QString )> cb );
+	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( QString )> cb );
 
 	QStringList getFiles( QString path, QString searchPattern, SearchOption searchOption = SearchOption::TopDirectoryOnly );
 	QStringList getDirectories( QString path, QString searchPattern, SearchOption searchOption = SearchOption::TopDirectoryOnly );

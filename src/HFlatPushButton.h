@@ -2,10 +2,10 @@
 
 #include <QPushButton>
 
-class QtFlatPushButton : public QPushButton {
+class HFlatPushButton : public QPushButton {
 	Q_OBJECT
 public:
-	QtFlatPushButton( QWidget* parent = nullptr );
+	HFlatPushButton( QWidget* parent = nullptr );
 
 	void hoverLeave();
 

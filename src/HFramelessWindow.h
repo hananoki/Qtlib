@@ -3,18 +3,18 @@
 #include <QMainWindow>
 #include <memory>
 
-class QtFramelessWindowPrivate;
+class HFramelessWindowPrivate;
 
-class QtFramelessWindow : public QMainWindow {
+class HFramelessWindow : public QMainWindow {
 	Q_OBJECT
 public:
-	QtFramelessWindow( QWidget* parent = nullptr );
-	virtual ~QtFramelessWindow();
+	HFramelessWindow( QWidget* parent = nullptr );
+	virtual ~HFramelessWindow();
 
 	void addCaptionWidget( QWidget* widget );
 
 private:
-	std::unique_ptr<QtFramelessWindowPrivate> impl;
+	std::unique_ptr<HFramelessWindowPrivate> impl;
 
 
 #ifdef Q_OS_WIN

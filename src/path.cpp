@@ -36,10 +36,18 @@ namespace path {
 	/////////////////////////////////////////
 	QString changeSuffix( const QString& filepath, const QString& suffix ) {
 		QFileInfo fileInfo( filepath );
-		QString dst = QString( "%1/%2.%3" )
-			.arg( fileInfo.absolutePath() )
-			.arg( fileInfo.baseName() )
-			.arg( suffix );
+		QString dst;
+		if( fileInfo.isAbsolute() ) {
+			dst = QString( "%1/%2.%3" )
+				.arg( fileInfo.absolutePath() )
+				.arg( fileInfo.baseName() )
+				.arg( suffix );
+		}
+		else {
+			dst = QString( "%1.%2" )
+				.arg( fileInfo.baseName() )
+				.arg( suffix );
+		}
 		return dst;
 	}
 
@@ -64,5 +72,11 @@ namespace path {
 		if( s.isNull() )return "";
 		if( s.isEmpty() ) return "";
 		return s.replace( '\\', "/" );
+	}
+}
+
+namespace environment {
+	QString currentDirectory() {
+		return  QDir::current().canonicalPath();
 	}
 }

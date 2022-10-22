@@ -1,9 +1,9 @@
-﻿#include "QtTreeWidget.h"
+﻿#include "HTreeWidget.h"
 #include <QKeyEvent>
 
-/////////////////////////////////////////
-HTreeWidgetItem::HTreeWidgetItem( QTreeWidget* view ) : treeWidget( view )
-{}
+//////////////////////////////////////////////////////////////////////////////////
+//HTreeWidgetItem::HTreeWidgetItem( QTreeWidget* view ) : treeWidget( view )
+//{}
 
 
 /////////////////////////////////////////
@@ -13,20 +13,20 @@ QString HTreeWidgetItem::fullPath() {
 	QTreeWidgetItem* item = this;
 
 	while( item->parent() != NULL ) {
-		result = item->parent()->text( 0 ) + "/" + result;
+		result = item->parent()->text( 0 ) + "##" + result;
 		item = item->parent();
 	}
 	return result;
 }
 
 
-/////////////////////////////////////////
-QtTreeWidget::QtTreeWidget( QWidget* parent ) : QTreeWidget( parent ) {
+//////////////////////////////////////////////////////////////////////////////////
+HTreeWidget::HTreeWidget( QWidget* parent ) : QTreeWidget( parent ) {
 
 }
 
 /////////////////////////////////////////
-void QtTreeWidget::keyPressEvent( QKeyEvent* event ) {
+void HTreeWidget::keyPressEvent( QKeyEvent* event ) {
 	QTreeWidget::keyPressEvent( event );
 	if( ( event->key() == Qt::Key_Up ) || ( event->key() == Qt::Key_Down ) ) {
 		//static_cast<ItemBase*>( currentItem() )->itemClicked();
@@ -37,7 +37,7 @@ void QtTreeWidget::keyPressEvent( QKeyEvent* event ) {
 
 
 /////////////////////////////////////////
-QStringList QtTreeWidget::getExpandItemPaths() {
+QStringList HTreeWidget::getExpandItemPaths() {
 	QStringList result;
 
 	for( int i = 0; i < topLevelItemCount(); i++ ) {
@@ -50,7 +50,7 @@ QStringList QtTreeWidget::getExpandItemPaths() {
 
 
 /////////////////////////////////////////
-void QtTreeWidget::internalGetExpandNodeString( QTreeWidgetItem* node, QStringList& result ) {
+void HTreeWidget::internalGetExpandNodeString( QTreeWidgetItem* node, QStringList& result ) {
 	for( int i = 0; i < node->childCount(); i++ ) {
 		QTreeWidgetItem* p = node->child( i );
 		internalGetExpandNodeString( p, result );
@@ -66,7 +66,7 @@ void QtTreeWidget::internalGetExpandNodeString( QTreeWidgetItem* node, QStringLi
 
 
 /////////////////////////////////////////
-void QtTreeWidget::setExpandItemPaths( const QStringList& expandList ) {
+void HTreeWidget::setExpandItemPaths( const QStringList& expandList ) {
 	//var nodes = treeView.Nodes.OfType<TreeNode>().ToList();
 
 	auto getNodes = [&]() {
@@ -98,7 +98,7 @@ void QtTreeWidget::setExpandItemPaths( const QStringList& expandList ) {
 		auto n = nodes;
 		find = true;
 		findNode = nullptr;
-		for( auto nname : s.split( "/" ) ) {
+		for( auto nname : s.split( "##" ) ) {
 			auto* node = findList( n, nname );
 			if( node == nullptr ) {
 				find = false;
@@ -112,3 +112,6 @@ void QtTreeWidget::setExpandItemPaths( const QStringList& expandList ) {
 		findNode->setExpanded( true );
 	}
 }
+
+
+

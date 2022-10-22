@@ -80,7 +80,26 @@ namespace icon {
 		FA_TAG( starhalfo, fa::starhalfo ) \
 		FA_TAG( staro, fa::staro ) \
 \
+		FA_TAG( file, fa::file ) \
+		FA_TAG( filearchiveo, fa::filearchiveo ) \
+		FA_TAG( fileaudioo, fa::fileaudioo ) \
+		FA_TAG( filecodeo, fa::filecodeo ) \
+		FA_TAG( fileexcelo, fa::fileexcelo ) \
+		FA_TAG( fileimageo, fa::fileimageo ) \
+		FA_TAG( filemovieo, fa::filemovieo ) \
+		FA_TAG( fileo, fa::fileo ) \
+		FA_TAG( filepdfo, fa::filepdfo ) \
+		FA_TAG( filephotoo, fa::filephotoo ) \
+		FA_TAG( filepictureo, fa::filepictureo ) \
+		FA_TAG( filepowerpointo, fa::filepowerpointo ) \
+		FA_TAG( filesoundo, fa::filesoundo ) \
+		FA_TAG( filetext, fa::filetext ) \
+		FA_TAG( filetexto, fa::filetexto ) \
+		FA_TAG( filevideoo, fa::filevideoo ) \
+		FA_TAG( filewordo, fa::filewordo ) \
+		FA_TAG( filezipo, fa::filezipo ) \
 		FA_TAG( fileso, fa::fileso ) \
+\
 		FA_TAG( folder, fa::folder ) \
 		FA_TAG( foldero, fa::foldero ) \
 		FA_TAG( folderopen, fa::folderopen ) \
@@ -134,19 +153,30 @@ namespace icon {
 		FA_TAG( stickynoteo, fa::stickynoteo ) \
 		FA_TAG( paintbrush, fa::paintbrush ) \
 \
+		FA_TAG( building, fa::building )\
+		FA_TAG( buildingo, fa::buildingo )\
+		FA_TAG( wrench,fa::wrench) \
+\
 		FA_TAG( search, fa::search )\
 		FA_TAG( searchminus, fa::searchminus )\
 		FA_TAG( searchplus, fa::searchplus )\
 \
 		FA_TAG( registered, fa::registered )\
 		FA_TAG( archive, fa::archive )\
-		FA_TAG( wrench,fa::wrench) \
 		FA_TAG( tasks, fa::tasks ) \
 		FA_TAG( gamepad, fa::gamepad ) \
 		FA_TAG( producthunt, fa::producthunt ) \
 		FA_TAG( windows, fa::windows ) \
 		FA_TAG( wpexplorer, fa::wpexplorer ) \
-		FA_TAG( wpforms, fa::wpforms )
+		FA_TAG( wpforms, fa::wpforms ) \
+		FA_TAG( terminal, fa::terminal ) \
+\
+		FA_TAG( question, fa::question ) \
+		FA_TAG( questioncircle, fa::questioncircle ) \
+		FA_TAG( questioncircleo, fa::questioncircleo ) \
+\
+		FA_TAG( info, fa::info ) \
+		FA_TAG( infocircle, fa::infocircle )
 
 		namespace FA {
 		FAA_LIST

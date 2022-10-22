@@ -1,4 +1,6 @@
 ﻿#include "helper.h"
+#include "fs.h"
+#include "path.h"
 
 #include <QDir>
 
@@ -63,7 +65,13 @@ namespace $ {
 	}
 
 
-
+	//QString trimStart( const QString& s, QString trim ) {
+	//	QString ss = s;
+	//	if( ss.endsWith( trim ) ) {
+	//		ss.chop( 1 );
+	//	}
+	//	return ss;
+	//}
 	QString trimEnd( const QString& s, QString trim ) {
 		QString ss = s;
 		if( ss.endsWith( trim ) ) {
@@ -91,6 +99,78 @@ namespace $ {
 		return qApp->style()->standardPixmap( id );
 	}
 
+	/// @brief  日付チェック
+	bool isLastModified( QString inFile, QString outFile ) {
+		//if( config.bDateCheck == Qt::CheckState::Checked ) return true;
+
+		bool enable = false;
+		if( fs::isExistFile( outFile ) ) {
+			if( QFileInfo( outFile ).lastModified() < QFileInfo( inFile ).lastModified() ) {
+				enable = true;
+			}
+		}
+		else {
+			enable = true;
+		}
+		return enable;
+	}
+
+	QString makeUniqueDirectoryPath( QString fpath ) {
+		if( !fs::isExistDirectory( fpath ) )return fpath;
+
+		QFileInfo finfo ( fpath );
+		
+		if( finfo.isAbsolute() ) {
+			auto dir = path::getDirectoryName( fpath );
+			auto base = path::getFileName( fpath );
+
+			for( int i = 2;; i++ ) {
+				fpath = $$( "%1/%2 (%3)" ).arg( dir ).arg( base ).arg( i );
+				if( !fs::isExistDirectory( fpath ) )break;
+			}
+		}
+		else {
+			/* たぶんコレでいいと思うけど試していない
+			auto base = fpath ;
+
+			for( int i = 2;; i++ ) {
+				fpath = $$( "%1 (%2)" ).arg( base ).arg( i );
+				if( !fs::isExistDirectory( fpath ) )break;
+			}
+			*/
+		}
+		return fpath;
+	}
+
+	/////////////////////////////////////////
+	QString makeUniqueFilePath( QString fpath ) {
+		if( !fs::isExistFile( fpath ) )return fpath;
+
+		QFileInfo finfo( fpath );
+
+		if( finfo.isAbsolute() ) {
+			auto dir = path::getDirectoryName( fpath );
+			auto base = path::getBaseName( fpath );
+			auto suffix = path::getSuffix( fpath );
+
+			for( int i = 0;; i++ ) {
+				fpath = $$( "%1/%2_%3.%4" ).arg( dir ).arg( base ).arg( i ).arg( suffix );
+				if( !fs::isExistFile( fpath ) )break;
+			}
+		}
+		else {
+			/* たぶんコレでいいと思うけど試していない
+			auto base = path::getBaseName( fpath );
+			auto suffix = path::getSuffix( fpath );
+
+			for( int i = 0;; i++ ) {
+				fpath = $$( "%1_%2.%3" ).arg( base ).arg( i ).arg( suffix );
+				if( !fs::isExistFile( fpath ) )break;
+			}
+			*/
+		}
+		return fpath;
+	}
 
 
 #ifdef Q_OS_WIN

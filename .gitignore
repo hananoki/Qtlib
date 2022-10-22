@@ -7,3 +7,9 @@
 /Qtlib.vcxproj.user
 /Build
 /Makefile*
+/QtLibSound/Makefile*
+/QtLibSound/debug
+/QtLibSound/release
+/QtLibSound/QtLibSound.pro.user
+/QtLibSound/QtLibSound.vcxproj.user
+/ui_*.h

@@ -50,8 +50,8 @@ void tsv::parser( const QString& filepath, std::function<void( const QStringList
 }
 
 namespace fs {
-	inline void internalDirIterator( QString path , QString searchPattern, QDir::Filters filters, SearchOption searchOption, std::function<void( QString )> cb ){
-		
+	inline void internalDirIterator( QString path, QString searchPattern, QDir::Filters filters, SearchOption searchOption, std::function<bool( QString )> cb ) {
+
 		QStringList nameFilters = searchPattern.split( ";" );
 
 		QDirIterator::IteratorFlags iteratorFlags = QDirIterator::IteratorFlag::NoIteratorFlags;
@@ -62,11 +62,11 @@ namespace fs {
 
 		QDirIterator it( path, nameFilters, filters, iteratorFlags );
 		while( it.hasNext() ) {
-			cb( it.next() );
+			if( !cb( it.next() ) )break;
 		}
 	}
 
-	void enumerateFiles( QString path, QString searchPattern, SearchOption searchOption, std::function<void( QString )> cb ) {
+	void enumerateFiles( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( QString )> cb ) {
 		internalDirIterator(
 			path,
 			searchPattern,
@@ -76,7 +76,7 @@ namespace fs {
 		);
 	}
 
-	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, std::function<void( QString )> cb ) {
+	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( QString )> cb ) {
 		internalDirIterator(
 			path,
 			searchPattern,
@@ -142,6 +142,19 @@ namespace fs {
 		}
 	}
 
+	void cp( const QString& src, const QString& dst ) {
+		if( isExistFile( src ) ) {
+			fs::mkdir( path::getDirectoryName( dst ) );
+			// タイムスタンプ更新が腐ってるので消してコピーし直す
+			if( isExistFile( dst ) ) {
+				QFile::remove( dst );
+			}
+			QFile::copy( src, dst );
+			// ファイルの更新時間が変更されない
+			//auto finfo = QFileInfo( src );
+			//QFile( dst ).setFileTime( finfo.lastModified(), QFile::FileTime::FileModificationTime );
+		}
+	}
 
 	void mv( const QString& src, const QString& dst ) {
 		if( isExistDirectory( src ) ) {
@@ -160,9 +173,9 @@ namespace fs {
 		//	QFile f( src );
 		//	f.rename( dst );
 		//}
-		auto ff=QFileInfo( path );
+		auto ff = QFileInfo( path );
 		auto abso = ff.absolutePath();
-		QDir(path::getDirectoryName( ff.absolutePath() )).rmdir( path::getFileName( path ) );
+		QDir( path::getDirectoryName( ff.absolutePath() ) ).rmdir( path::getFileName( path ) );
 	}
 
 	QByteArray readAll( const QString& fileName ) {
@@ -251,15 +264,48 @@ namespace fs {
 	}
 
 
+	/////////////////////////////////////////
+	/// @brief  新しいファイルを作成し、指定した文字列をそのファイルに書き込んだ後、ファイルを閉じます。
+	///         既存のターゲット ファイルは上書きされます
+	/// @param  書き込み先のファイル
+	/// @param  ファイルに書き込む文字列
+	/// @param  文字列に適用するエンコーディング
+	void writeAllText( const QString& path, const QString& contents, Encoding encoding ) {
+		fs::mkdir( path::getDirectoryName( path ) );
+		QFile file( path );
+		if( !file.open( QIODevice::WriteOnly ) ) {
+			qWarning() << "fs::writeAllText: file open error. " << path;
+			return;
+		}
+		QTextStream out( &file );
+
+		if( encoding == Encoding::UTF8 || encoding == Encoding::UTF8N ) {
+			out.setCodec( "UTF-8" );
+		}
+		if( encoding == Encoding::UTF8 ) {
+			out.setGenerateByteOrderMark( true );
+		}
+		out << contents;
+	}
+
+
+	/////////////////////////////////////////
+	/// @brief  ファイルをゴミ箱へ移動します
+	/// @params ファイルパスのリスト
 	void moveToTrash( const QStringList& fileList ) {
 #ifdef Q_OS_WIN
 		for( auto& f : fileList ) {
 			moveToTrash( f );
 		}
+#else
+		qWarning << u8"未実装";
 #endif
-	}
+		}
 
 
+	/////////////////////////////////////////
+	/// @brief  ファイルをゴミ箱へ移動します
+	/// @params ファイルパス
 	int moveToTrash( const QString& inFullPath ) {
 #ifdef Q_OS_WIN
 		auto fullPath = path::separatorToOS( inFullPath );
@@ -312,4 +358,4 @@ namespace fs {
 	bool isWritableFile( const QString& path ) {
 		return QFileInfo( path ).isWritable();
 	}
-}
+	}

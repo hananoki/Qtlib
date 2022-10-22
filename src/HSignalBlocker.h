@@ -2,17 +2,17 @@
 
 #include <QWidget>
 
-class QtSignalBlocker {
+class HSignalBlocker {
 	QWidget* self;
 public:
-	QtSignalBlocker( QWidget* p ) :self( p ) {
+	HSignalBlocker( QWidget* p ) :self( p ) {
 		for( auto& w : p->findChildren<QWidget*>() ) {
 			w->blockSignals( true );
 		}
 		p->blockSignals( true );
 	}
 
-	~QtSignalBlocker() {
+	~HSignalBlocker() {
 		for( auto& w : self->findChildren<QWidget*>() ) {
 			w->blockSignals( false );
 		}

@@ -1,10 +1,11 @@
 ﻿#pragma once
 
+#include "json.h"
 #include "path.h"
 #include "icon.h"
 #include "fs.h"
 #include "comboBox.h"
-#include "groupBox.h"
+#include "widgets.h"
 #include "helper.h"
 
 #pragma warning(push)
@@ -12,6 +13,8 @@
 #include "qtlinq.h"
 #pragma warning(pop)
 
-#include "QtFlatPushButton.h"
-#include "QtClickableLabel.h"
-#include "QtSignalBlocker.h"
+#include "HFlatPushButton.h"
+#include "HClickableLabel.h"
+#include "HTreeWidget.h"
+#include "HSignalBlocker.h"
+#include "HWorker.h"
