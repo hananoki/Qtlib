@@ -2,15 +2,18 @@
 
 #include <QTreeWidget>
 
+class QFileInfo;
+
 //////////////////////////////////////////////////////////////////////////////////
 class HTreeWidgetItem : public QTreeWidgetItem {
 public:
 	HTreeWidgetItem() : QTreeWidgetItem() {}
 	HTreeWidgetItem( QTreeWidget* _treeWidget ) : treeWidget( _treeWidget ) {}
 
+	QTreeWidget* treeWidget;
+
 	// @brief  /(スラッシュ)を区切りとしてノードの繋がりを文字列で返す
 	QString fullPath();
-	QTreeWidget* treeWidget;
 
 	template<class T>
 	QList<T*> childItems() {
@@ -30,6 +33,16 @@ public:
 		}
 		return nullptr;
 	}
+
+	void setCheckState( int column, bool state ) {
+		QTreeWidgetItem::setCheckState( column, state ? Qt::CheckState::Checked : Qt::CheckState::Unchecked );
+	}
+
+	/////////////////////////////////////////
+	bool checkState( int column );
+
+	/////////////////////////////////////////
+	void setLastModified( int column, const QFileInfo& finfo );
 };
 
 
@@ -77,6 +90,16 @@ public:
 	}
 
 	template <class T>
+	T* findTopLevelItem( const QString& text ) {
+		for( int i = 0; i < topLevelItemCount(); i++ ) {
+			auto* p = dynamic_cast<T*>( topLevelItem( i ) );
+			if( !p )continue;
+			if( p->text( 0 ) == text )return (T*) p;
+		}
+		return nullptr;
+	}
+
+	template <class T>
 	T* itemFromIndex( const QModelIndex& index ) const;
 
 	void dragEnterEvent( QDragEnterEvent* e ) { if( onDragEnterEvent ) onDragEnterEvent( e ); }
@@ -85,12 +108,14 @@ public:
 
 	std::function<void( QDragEnterEvent* ) > onDragEnterEvent;
 	std::function<void( QDragMoveEvent* ) > odDagMoveEvent;
-	std::function<void( QDropEvent* ) > onDropEvent;
+	std::function<void( QDropEvent* ) > onDropEvent; // true デフォルト処理をおこなわい
+	std::function<bool( QMouseEvent* ) > onMousePressEvent;
 
 private:
 	void internalGetExpandNodeString( QTreeWidgetItem* node, QStringList& result );
 
 	void keyPressEvent( QKeyEvent* event );
+	void mousePressEvent( QMouseEvent* e );
 };
 
 
@@ -106,8 +131,10 @@ T* HTreeWidget::currentItem() {
 template <class T>
 QList<T*> HTreeWidget::currentItems() {
 	QList<T*> l;
-	for( auto* p : selectedItems() ) {
-		l << dynamic_cast<T*>( p );
+	for( auto* item : selectedItems() ) {
+		auto* p = dynamic_cast<T*>( item );
+		if( !p )continue;
+		l << p;
 	}
 	return l;
 }

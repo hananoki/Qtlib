@@ -11,8 +11,10 @@
 #include <QtWin>
 #endif
 #include <QDebug>
+#include <QTextCodec>
 
 void binarySerializer::write( const QString& filepath, std::function<void( QDataStream& )> cb ) {
+	fs::mkdir( path::getDirectoryName( filepath ) );
 	QFile file( filepath );
 	file.open( QFile::WriteOnly );
 	QDataStream dataStream( &file );
@@ -52,7 +54,7 @@ void tsv::parser( const QString& filepath, std::function<void( const QStringList
 namespace fs {
 	inline void internalDirIterator( QString path, QString searchPattern, QDir::Filters filters, SearchOption searchOption, std::function<bool( QString )> cb ) {
 
-		QStringList nameFilters = searchPattern.split( ";" );
+		QStringList nameFilters = searchPattern.toLower().split( ";" );
 
 		QDirIterator::IteratorFlags iteratorFlags = QDirIterator::IteratorFlag::NoIteratorFlags;
 		if( searchOption == SearchOption::AllDirectories ) {
@@ -66,7 +68,7 @@ namespace fs {
 		}
 	}
 
-	void enumerateFiles( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( QString )> cb ) {
+	void enumerateFiles( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( const QString& )> cb ) {
 		internalDirIterator(
 			path,
 			searchPattern,
@@ -76,7 +78,7 @@ namespace fs {
 		);
 	}
 
-	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( QString )> cb ) {
+	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( const QString& )> cb ) {
 		internalDirIterator(
 			path,
 			searchPattern,
@@ -136,6 +138,16 @@ namespace fs {
 		if( fs::isExistDirectory( path ) )return;
 
 		QDir dir;
+
+		auto finfo = QFileInfo( path );
+		if( finfo.isAbsolute() ) {
+			QString p;
+			for( auto& s : path.split( "/" ) ) {
+				p += p.isEmpty() ? s : "/" + s;
+				if( fs::isExistDirectory( p ) )continue;
+				dir.mkdir( p );
+			}
+		}
 
 		if( !dir.mkdir( path ) ) {
 			// エラーの場合の処理
@@ -208,10 +220,14 @@ namespace fs {
 		if( encoding == Encoding::UTF8 || encoding == Encoding::UTF8N ) {
 			in.setCodec( "UTF-8" );
 		}
+		if( encoding == Encoding::Shift_JIS ) {
+			in.setCodec( "Shift-JIS" );
+		}
+
 		return in.readAll();
 	}
 
-
+	/////////////////////////////////////////
 	QStringList readAllLines( const QString& filePath, Encoding encoding ) {
 		QFile file( filePath );
 		QStringList result;
@@ -226,6 +242,9 @@ namespace fs {
 		if( encoding == Encoding::UTF8 || encoding == Encoding::UTF8N ) {
 			in.setCodec( "UTF-8" );
 		}
+		if( encoding == Encoding::Shift_JIS ) {
+			in.setCodec( "Shift-JIS" );
+		}
 
 		while( !in.atEnd() ) result << in.readLine();
 
@@ -233,6 +252,46 @@ namespace fs {
 	}
 
 
+	/**
+	 * @brief  指定したファイルから一行毎に読み取り、指定コールバックに渡して呼び出します
+	 * @param  filePath: ファイルパス
+	 * @param  encoding: テキストエンコーディング
+	 * @param  cb:       コールバック
+	 */
+	bool readAllLines( const QString& filePath, Encoding encoding, std::function<void( const QString& )> cb ) {
+		QFile file( filePath );
+		QStringList result;
+
+		if( !file.open( QIODevice::ReadOnly | QFile::Text ) ) {
+			//QString errStr = "ファイル(" + fileInfo.suffix() + ")オープンエラー:" + file.errorString();
+			qDebug() << "error readAllLines: " << filePath;
+			return false;
+		}
+		QTextStream in( &file );
+
+		if( encoding == Encoding::UTF8 || encoding == Encoding::UTF8N ) {
+			in.setCodec( "UTF-8" );
+		}
+		if( encoding == Encoding::Shift_JIS ) {
+			in.setCodec( "Shift-JIS" );
+		}
+
+		while( !in.atEnd() ) cb( in.readLine() );
+
+		return true;
+	}
+
+	/**
+	 * @brief  指定したファイルから一行毎に読み取り、指定コールバックに渡して呼び出します
+	 *         テキストエンコーディングはEncoding::UTF8が指定されます
+	 * @param  filePath: ファイルパス
+	 * @param  cb:       コールバック
+	 */
+	bool readAllLines( const QString& filePath, std::function<void( const QString& )> cb ) {
+		return readAllLines( filePath, Encoding::UTF8, cb );
+	}
+
+	/////////////////////////////////////////
 	void writeAllLines( const QString& filePath, const QStringList& lines, Encoding encoding ) {
 		fs::mkdir( path::getDirectoryName( filePath ) );
 		QString errStr;
@@ -256,12 +315,16 @@ namespace fs {
 		if( encoding == Encoding::UTF8 ) {
 			out.setGenerateByteOrderMark( true );
 		}
+		if( encoding == Encoding::Shift_JIS ) {
+			out.setCodec( "Shift-JIS" );
+		}
 
 		for( auto& s : lines ) {
 			out << s << endl;
 		}
 		file.close();
 	}
+
 
 
 	/////////////////////////////////////////
@@ -285,6 +348,10 @@ namespace fs {
 		if( encoding == Encoding::UTF8 ) {
 			out.setGenerateByteOrderMark( true );
 		}
+		if( encoding == Encoding::Shift_JIS ) {
+			out.setCodec( "Shift-JIS" );
+		}
+		//QTextCodec* codec = QTextCodec::codecForName( "Shift-JIS" );
 		out << contents;
 	}
 

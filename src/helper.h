@@ -66,7 +66,7 @@ namespace $ {
 	/// @param  inFile
 	/// @param  outFile
 	/// @return outFileよりinFileが新しい時はtrue
-	bool isLastModified( QString inFile, QString outFile );
+	bool isLastModified( const QString& inFile, const QString& outFile );
 
 	QString makeUniqueDirectoryPath( QString fpath );
 	QString makeUniqueFilePath( QString fpath );
@@ -78,6 +78,12 @@ namespace $ {
 #ifdef ENABLE_SOUND
 	void playSound( const QString& filepath );
 #endif
+
+	template<class T>
+	void showDialog( QWidget* parent ) {
+		T dialog( parent );
+		dialog.exec();
+	}
 
 	template<class T>
 	void showDialog( QWidget* parent, std::function<void( T& )> accept ) {
@@ -110,6 +116,20 @@ namespace $ {
 	inline QString toString( int i ) {
 		return  QString::number( i );
 	}
+	inline QString toStringHex( int i ) {
+		return  $$( "%1" ).arg( i, 8, 16, QChar( '0' ) );
+	}
+	inline QString toString( quint32 i ) {
+		return  QString::number( i );
+	}
+	inline QString toString( float v, char f = 'g', int prec = 6 ) {
+		return  QString::number( v, f, prec );
+		//QString::number( 0.12345, 'f', 5 )
+	}
+	inline QString toString( double v, char f = 'g', int prec = 6 ) {
+		return  QString::number( v, f, prec );
+	}
+
 	inline QString toString( bool b ) {
 		return b ? "True" : "False";
 	}

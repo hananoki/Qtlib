@@ -8,6 +8,9 @@ namespace path {
 	QString getDirectoryName( const QString& filePath );
 	//QString getExtension( const QString& filePath );
 	QString getSuffix( const QString& filePath );
+	
+	/////////////////////////////////////////
+	bool hasSuffix( const QString& filePath, const QString& suffix );
 
 	QString changeSuffix( const QString& filepath, const QString& ext );
 	QString quote( const QString& filePath );

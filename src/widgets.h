@@ -1,9 +1,12 @@
 ﻿#pragma once
 
+#include <QKeySequence>
 #include <functional>
+#include <QFutureWatcher>
 
 class QAction;
 class QCheckBox;
+class QComboBox;
 class QGroupBox;
 class QIcon;
 class QLineEdit;
@@ -16,6 +19,8 @@ class QString;
 class QToolButton;
 class QTreeWidget;
 class QTreeWidgetItem;
+class QObject;
+class QWidget;
 
 namespace $GroupBox {
 	QRadioButton* findSelectedRadioButton( QGroupBox* group );
@@ -23,6 +28,7 @@ namespace $GroupBox {
 
 namespace $PushButton {
 	void clicked( QPushButton* w, std::function<void( bool )> func );
+	void click( QPushButton* w, std::function<void()> func );
 	void pressed( QPushButton* w, std::function<void()> func );
 }
 
@@ -34,8 +40,13 @@ namespace $CheckBox {
 	void stateChanged( QCheckBox* w, std::function<void( int )> func );
 }
 
+namespace $ComboBox {
+	void currentIndexChanged( QComboBox* w, std::function<void( int )> func );
+	void currentTextChanged( QComboBox* w, std::function<void( const QString& )> func );
+}
+
 namespace $RadioButton {
-	void toggled( QRadioButton* w, std::function<void( bool  )> func );
+	void toggled( QRadioButton* w, std::function<void( bool )> func );
 }
 
 namespace $LineEdit {
@@ -54,6 +65,16 @@ namespace $TreeWidget {
 			func( (T*) w->topLevelItem( i ) );
 		}
 	}
+	template <class T>
+	T* findItem( QList<QTreeWidgetItem*> itemList, const QString& text ) {
+		for( auto& item :itemList ) {
+			auto* p = dynamic_cast<T*>( item );
+			if( !p )continue;
+			if( p->text( 0 ) == text )return (T*) p;
+		}
+		return nullptr;
+	}
+
 	void itemClicked( QTreeWidget* w, std::function<void( QTreeWidgetItem*, int )> func );
 	void itemChanged( QTreeWidget* w, std::function<void( QTreeWidgetItem*, int )> func );
 	void itemSelectionChanged( QTreeWidget* w, std::function<void( void )> func );
@@ -68,7 +89,13 @@ namespace $ListWidget {
 namespace $Action {
 	void triggered( QAction* w, std::function<void( void )> func );
 
-	QAction* create( const QString& text, std::function<void( void )> func );
-	QAction* create( const QIcon& icon, std::function<void( void )> func );
-	QAction* create( const QString& text, const QIcon& icon, std::function<void( void )> func );
+	QAction* create( const QString& text, std::function<void( void )> func, QObject* parent = nullptr );
+	QAction* create( const QIcon& icon, std::function<void( void )> func, QObject* parent = nullptr );
+	QAction* create( const QString& text, const QIcon& icon, std::function<void( void )> func, QObject* parent = nullptr );
+
+	QAction* setShortcut( QWidget* w, QKeySequence::StandardKey key, std::function<void( void )> func );
+}
+
+namespace $FutureWatcher {
+	void progressTextChanged( QFutureWatcher<void>* w, QObject* context, std::function<void( const QString& progressText )> func );
 }

@@ -12,8 +12,9 @@
 #include <QFileInfo>
 #include <QApplication>
 #include <QDir>
+#include <QMutex>
 
-#include "QtAwesome/QtAwesome.h"
+//#include "QtAwesome/QtAwesome.h"
 
 namespace icon {
 	QMap<QString, QIcon> iconCache;
@@ -21,8 +22,9 @@ namespace icon {
 	QVariantMap variantMap;
 
 #ifdef Q_OS_WIN
+	QMutex mutex;
 	QIcon get( const QString& filePath ) {
-		
+		QMutexLocker _( &mutex );
 		QString ss = path::separatorToOS( filePath );
 		QFileInfo fileInfo( filePath  );
 		const wchar_t* filePathW = $::toWCharPtr( ss );
@@ -83,35 +85,35 @@ namespace icon {
 	}
 #endif
 
-	void initQtAwesome( float scaleFactor /*= 1.0f*/, QColor color /*= "#FFF"*/ ) {
-		awesome = new QtAwesome( qApp );
-		awesome->initFontAwesome();
-		awesome->setDefaultOption( "scale-factor", scaleFactor );
-		variantMap.insert( "color", color );
-		variantMap.insert( "color-selected", color );
-		variantMap.insert( "color-active", color );
-		//variantMap.insert( "scale-factor", 0.5 );
-		/*
-		    setDefaultOption( "color", QColor(50,50,50) );
-    setDefaultOption( "color-disabled", QColor(70,70,70,60));
-    setDefaultOption( "color-active", QColor(10,10,10));
-    setDefaultOption( "color-selected", QColor(10,10,10));
-		*/
-	}
+	//void initQtAwesome( float scaleFactor /*= 1.0f*/, QColor color /*= "#FFF"*/ ) {
+	//	awesome = new QtAwesome( qApp );
+	//	awesome->initFontAwesome();
+	//	awesome->setDefaultOption( "scale-factor", scaleFactor );
+	//	variantMap.insert( "color", color );
+	//	variantMap.insert( "color-selected", color );
+	//	variantMap.insert( "color-active", color );
+	//	//variantMap.insert( "scale-factor", 0.5 );
+	//	/*
+	//	    setDefaultOption( "color", QColor(50,50,50) );
+ //   setDefaultOption( "color-disabled", QColor(70,70,70,60));
+ //   setDefaultOption( "color-active", QColor(10,10,10));
+ //   setDefaultOption( "color-selected", QColor(10,10,10));
+	//	*/
+	//}
 
 	QIcon get( QStyle::StandardPixmap id ) {
 		return qApp->style()->standardIcon( id );
 	}
 
 
-#undef FA_TAG
-#define FA_TAG(aa,en) \
-	QIcon aa () { \
-		return awesome->icon( en,variantMap ); \
-	}
-	namespace FA {
-		FAA_LIST
-	}
+//#undef FA_TAG
+//#define FA_TAG(aa,en) \
+//	QIcon aa () { \
+//		return awesome->icon( en,variantMap ); \
+//	}
+//	namespace FA {
+//		FAA_LIST
+//	}
 }
 
 

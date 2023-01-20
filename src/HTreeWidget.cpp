@@ -1,5 +1,10 @@
 ﻿#include "HTreeWidget.h"
 #include <QKeyEvent>
+#include <QMouseEvent>
+#include <QMimeData>
+#include <QDrag>
+#include <QFileInfo>
+#include <QDateTime>
 
 //////////////////////////////////////////////////////////////////////////////////
 //HTreeWidgetItem::HTreeWidgetItem( QTreeWidget* view ) : treeWidget( view )
@@ -19,6 +24,17 @@ QString HTreeWidgetItem::fullPath() {
 	return result;
 }
 
+/////////////////////////////////////////
+bool HTreeWidgetItem::checkState( int column ) {
+	return 0 < QTreeWidgetItem::checkState( column ) ? true : false;
+}
+
+
+/////////////////////////////////////////
+void HTreeWidgetItem::setLastModified( int column, const QFileInfo& finfo ) {
+	setText( column, finfo.lastModified().toString( "yyyy/MM/dd hh:mm" ) );
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////
 HTreeWidget::HTreeWidget( QWidget* parent ) : QTreeWidget( parent ) {
@@ -34,7 +50,14 @@ void HTreeWidget::keyPressEvent( QKeyEvent* event ) {
 	}
 
 }
+/////////////////////////////////////////
+void HTreeWidget::mousePressEvent( QMouseEvent* e ) {
 
+	if( onMousePressEvent ) {
+		if( onMousePressEvent( e ) )return;
+	}
+	QTreeWidget::mousePressEvent(e);
+}
 
 /////////////////////////////////////////
 QStringList HTreeWidget::getExpandItemPaths() {

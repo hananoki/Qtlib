@@ -100,7 +100,10 @@ namespace $ {
 	}
 
 	/// @brief  日付チェック
-	bool isLastModified( QString inFile, QString outFile ) {
+	/// @param  inFile
+	/// @param  outFile
+	/// @return outFileよりinFileが新しい時はtrue
+	bool isLastModified( const QString& inFile, const QString& outFile ) {
 		//if( config.bDateCheck == Qt::CheckState::Checked ) return true;
 
 		bool enable = false;
@@ -118,8 +121,8 @@ namespace $ {
 	QString makeUniqueDirectoryPath( QString fpath ) {
 		if( !fs::isExistDirectory( fpath ) )return fpath;
 
-		QFileInfo finfo ( fpath );
-		
+		QFileInfo finfo( fpath );
+
 		if( finfo.isAbsolute() ) {
 			auto dir = path::getDirectoryName( fpath );
 			auto base = path::getFileName( fpath );

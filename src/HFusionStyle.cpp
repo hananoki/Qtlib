@@ -10,10 +10,10 @@ HFusionStyle::HFusionStyle() {
 }
 
 
-void HFusionStyle::set( bool darkMode, bool initIcon ) {
-	if( initIcon ) {
-		icon::initQtAwesome( 0.9f, darkMode ? "#FFF" : "#000" );
-	}
+void HFusionStyle::set( bool darkMode ) {
+	//if( initIcon ) {
+	//	//icon::initQtAwesome( 0.9f, darkMode ? "#FFF" : "#000" );
+	//}
 	qApp->setStyle( QStyleFactory::create( "Fusion" ) );
 	if( !darkMode )return;
 

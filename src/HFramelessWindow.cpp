@@ -2,6 +2,7 @@
 
 #include <QApplication>
 #include <QCloseEvent>
+#include <QDebug>
 
 #ifdef Q_OS_WIN
 #include <QtWin>
@@ -15,13 +16,14 @@
 class HFramelessWindowPrivate {
 public:
 	QList< QWidget*> hitCaptionWidget;
+	QWidget* parent;
 };
 
 
 /////////////////////////////////////////
-HFramelessWindow::HFramelessWindow( QWidget* parent )
-	: QMainWindow( parent )
-	, impl( new HFramelessWindowPrivate() ) {
+HFramelessWindow::HFramelessWindow( QWidget* parent ) :
+	QMainWindow( parent ),
+	impl( new HFramelessWindowPrivate( /*parent*/ ) ) {
 
 #ifdef Q_OS_WIN
 	const MARGINS shadow = { 1, 1, 1, 1 };
@@ -125,13 +127,17 @@ bool HFramelessWindow::nativeEvent( const QByteArray& eventType, void* message, 
 			return true;
 
 		QWidget* action = QApplication::widgetAt( QCursor::pos() );
-		if( 0 <= impl->hitCaptionWidget.indexOf( action ) ) {
-			*result = HTCAPTION;
-			return true;
-		}
-		if( action == this ) {
-			*result = HTCAPTION;
-			return true;
+
+		// 自身のMainWindowは無視しないとDockWidgetの境界をドラッグ出来ない
+		if( action != this ) {
+			if( 0 <= impl->hitCaptionWidget.indexOf( action ) ) {
+				*result = HTCAPTION;
+				return true;
+			}
+			if( action == this ) {
+				*result = HTCAPTION;
+				return true;
+			}
 		}
 
 		return false;

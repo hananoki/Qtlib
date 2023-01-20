@@ -9,7 +9,8 @@ class QStringList;
 enum class Encoding : int {
 	None,
 	UTF8,
-	UTF8N,
+	UTF8N,// BOM無し
+	Shift_JIS,
 };
 
 enum class SearchOption : int {
@@ -41,6 +42,23 @@ namespace fs {
 	QString readAllText( const QString& filePath, Encoding encoding = Encoding::UTF8 );
 
 	QStringList readAllLines( const QString& filePath, Encoding encoding = Encoding::UTF8 );
+
+	/**
+	 * @brief  指定したファイルから一行毎に読み取り、指定コールバックに渡して呼び出します
+	 * @param  filePath: ファイルパス
+	 * @param  encoding: テキストエンコーディング
+	 * @param  cb:       コールバック
+	 */
+	bool readAllLines( const QString& filePath, Encoding encoding, std::function<void( const QString& )> cb );
+
+	/**
+	 * @brief  指定したファイルから一行毎に読み取り、指定コールバックに渡して呼び出します
+	 *         テキストエンコーディングはEncoding::UTF8が指定されます
+	 * @param  filePath: ファイルパス
+	 * @param  cb:       コールバック
+	 */
+	bool readAllLines( const QString& filePath, std::function<void( const QString& )> cb );
+
 	void writeAllLines( const QString& filePath, const QStringList& lines, Encoding encoding = Encoding::UTF8 );
 
 	
@@ -55,8 +73,8 @@ namespace fs {
 	bool isWritableFile( const QString& path );
 
 	// ラムダ式戻り値bool: true 列挙を継続する false 列挙を中止する
-	void enumerateFiles( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( QString )> cb );
-	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( QString )> cb );
+	void enumerateFiles( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( const QString& )> cb );
+	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( const QString& )> cb );
 
 	QStringList getFiles( QString path, QString searchPattern, SearchOption searchOption = SearchOption::TopDirectoryOnly );
 	QStringList getDirectories( QString path, QString searchPattern, SearchOption searchOption = SearchOption::TopDirectoryOnly );

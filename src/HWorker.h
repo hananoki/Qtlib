@@ -1,4 +1,6 @@
-#pragma once
+﻿#pragma once
+#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 
 //////////////////////////////////////////////////////////////////////////////////
 template< class T >

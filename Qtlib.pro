@@ -8,7 +8,7 @@ CONFIG += staticlib
 CONFIG += c++11
 
 # Qt Awesomeプロジェクトを組み込み 
-include(src/QtAwesome/QtAwesome.pri)
+#include(src/QtAwesome/QtAwesome.pri)
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -18,6 +18,8 @@ INCLUDEPATH += src
 
 SOURCES += \
     src/HClickableLabel.cpp \
+    src/HCheckBox.cpp \
+    src/HComboBox.cpp \
     src/HFlatPushButton.cpp \
     src/HFramelessWindow.cpp \
     src/HFusionStyle.cpp \
@@ -30,16 +32,21 @@ SOURCES += \
     src/json.cpp \
     src/path.cpp \
     src/ui/UIStatusBar.cpp \
+    src/ui/UIFilePathBox.cpp \
+    src/ui/UIFolderPathBox.cpp \
     src/widgets.cpp
 
 HEADERS += \
     src/HClickableLabel.h \
+    src/HCheckBox.h \
+    src/HComboBox.h \
     src/HFlatPushButton.h \
     src/HFramelessWindow.h \
     src/HFusionStyle.h \
     src/HSignalBlocker.h \
     src/HTreeWidget.h \
     src/HWorker.h \
+    src/IConfigChanged.h \
     src/Qtlib.h \
     src/DarkWindow.h \
     src/comboBox.h \
@@ -51,10 +58,14 @@ HEADERS += \
     src/icon.h \
     src/path.h \
     src/ui/UIStatusBar.h \
+    src/ui/UIFilePathBox.h \
+    src/ui/UIFolderPathBox.h \
     src/widgets.h
 
 FORMS += \
-  src/ui/UIStatusBar.ui
+  src/ui/UIStatusBar.ui \
+    src/ui/UIFilePathBox.ui \
+    src/ui/UIFolderPathBox.ui
 
 # Default rules for deployment.
 unix {

@@ -27,16 +27,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
-      <Extensions>qrc;*</Extensions>
-      <ParseFiles>false</ParseFiles>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
-      <Extensions>qrc;*</Extensions>
-      <ParseFiles>false</ParseFiles>
-    </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
@@ -50,7 +40,13 @@
     <ClCompile Include="src\DarkWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\HCheckBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\HClickableLabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HComboBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\HFlatPushButton.cpp">
@@ -65,10 +61,10 @@
     <ClCompile Include="src\HTreeWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\QtAwesome\QtAwesome.cpp">
+    <ClCompile Include="src\ui\UIFilePathBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\QtAwesome\QtAwesomeAnim.cpp">
+    <ClCompile Include="src\ui\UIFolderPathBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ui\UIStatusBar.cpp">
@@ -100,7 +96,13 @@
     <QtMoc Include="src\DarkWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\HCheckBox.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
     <QtMoc Include="src\HClickableLabel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\HComboBox.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\HFlatPushButton.h">
@@ -121,15 +123,18 @@
     <ClInclude Include="src\HWorker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <QtMoc Include="src\QtAwesome\QtAwesome.h">
+    <ClInclude Include="src\IConfigChanged.h">
       <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\QtAwesome\QtAwesomeAnim.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
+    </ClInclude>
     <ClInclude Include="src\Qtlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <QtMoc Include="src\ui\UIFilePathBox.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ui\UIFolderPathBox.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
     <QtMoc Include="src\ui\UIStatusBar.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -176,6 +181,10 @@
     
     
     
+    
+    
+    
+    
     <CustomBuild Include="debug\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
@@ -187,16 +196,14 @@
     
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="src\ui\UIFilePathBox.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\ui\UIFolderPathBox.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
     <QtUic Include="src\ui\UIStatusBar.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-  </ItemGroup>
-  <ItemGroup>
-    <QtRcc Include="src\QtAwesome\QtAwesome.qrc">
-      <Filter>Resource Files</Filter>
-    </QtRcc>
-    <None Include="src\QtAwesome\fonts\fontawesome-4.7.0.ttf">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

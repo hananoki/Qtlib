@@ -6,23 +6,55 @@
 namespace path {
 	/////////////////////////////////////////
 	QString getBaseName( const QString& filePath ) {
-		return QFileInfo( filePath ).baseName();
+		auto finfo = QFileInfo( filePath );
+		if( finfo.exists() ) {
+			return QFileInfo( filePath ).baseName();
+		}
+		auto fname = filePath;
+		if( filePath.contains( "/" ) ) {
+			fname = getFileName( filePath );
+		}
+		auto lst = filePath.split( "." );
+		lst.takeLast();
+		return lst.join( "." );
 	}
 
 	/////////////////////////////////////////
 	QString getFileName( const QString& filePath ) {
-		return QFileInfo( filePath ).fileName();
+		auto finfo = QFileInfo( filePath );
+		if( finfo.exists() ) {
+			return QFileInfo( filePath ).fileName();
+		}
+		if( filePath.contains( "/" ) ) {
+			auto lst = filePath.split( "/" );
+			return lst.last();
+		}
+		return filePath;
 	}
 
 
 	/////////////////////////////////////////
 	QString getDirectoryName( const QString& filePath ) {
-		return QFileInfo( filePath ).absoluteDir().path();
+		auto finfo = QFileInfo( filePath );
+		if( finfo.exists() ) {
+			return QFileInfo( filePath ).absoluteDir().path();
+		}
+		if( filePath.contains( "/" ) ) {
+			auto lst = filePath.split( "/" );
+			lst.removeLast();
+			return lst.join( "/" );
+		}
+		return "";
 	}
 
 	/////////////////////////////////////////
 	QString getSuffix( const QString& filePath ) {
 		return QFileInfo( filePath ).completeSuffix();
+	}
+
+	/////////////////////////////////////////
+	bool hasSuffix( const QString& filePath, const QString& suffix ) {
+		return getSuffix( filePath ).toLower() == suffix.toLower();
 	}
 
 	/////////////////////////////////////////
