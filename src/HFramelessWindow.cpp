@@ -143,6 +143,5 @@ bool HFramelessWindow::nativeEvent( const QByteArray& eventType, void* message, 
 		return false;
 	}
 	return QMainWindow::nativeEvent( eventType, message, result );
-	//return false;
 }
 #endif

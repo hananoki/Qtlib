@@ -18,3 +18,4 @@
 #include "HTreeWidget.h"
 #include "HSignalBlocker.h"
 #include "HWorker.h"
+#include "HLogView.h"

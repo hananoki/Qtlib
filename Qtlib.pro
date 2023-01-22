@@ -24,6 +24,7 @@ SOURCES += \
     src/HFramelessWindow.cpp \
     src/HFusionStyle.cpp \
     src/HTreeWidget.cpp \
+    src/HLogView.cpp \
     src/DarkWindow.cpp \
     src/comboBox.cpp \
     src/fs.cpp \
@@ -45,6 +46,7 @@ HEADERS += \
     src/HFusionStyle.h \
     src/HSignalBlocker.h \
     src/HTreeWidget.h \
+    src/HLogView.h \
     src/HWorker.h \
     src/IConfigChanged.h \
     src/Qtlib.h \
