@@ -2,6 +2,8 @@
 #include "fs.h"
 #include "path.h"
 
+#include <cmath>
+
 #include <QDir>
 
 
@@ -99,6 +101,21 @@ namespace $ {
 		return qApp->style()->standardPixmap( id );
 	}
 
+	// エクスプローラで見えるサイズ
+	// 
+	QString fileSize( qint64 fsize ) {
+		double num = fsize;
+
+		if( num >= 1024 ) {
+			num /= 1024.0;
+		}
+		else if( 0 < num ) {
+			num = 1;
+		}
+		return QLocale( QLocale::English ).toString( (ulong) std::ceil( num ) ) + " KB";
+	}
+
+
 	/// @brief  日付チェック
 	/// @param  inFile
 	/// @param  outFile
@@ -183,8 +200,65 @@ namespace $ {
 	}
 #endif
 
+	/////////////////////////////////////////
 	void showInExplorer( const QString& path ) {
 		QDesktopServices::openUrl( QUrl::fromLocalFile( path ) );
+	}
+
+
+	/////////////////////////////////////////
+	void showProperty( const QString& path ) {
+		SHELLEXECUTEINFO sei;
+
+		ZeroMemory( &sei, sizeof( sei ) );
+		sei.cbSize = sizeof( sei );
+		sei.lpFile = $::toWCharPtr( path );
+		sei.lpVerb = TEXT( "properties" );
+		sei.fMask = SEE_MASK_INVOKEIDLIST | SEE_MASK_NOCLOSEPROCESS;
+		ShellExecuteEx( &sei );
+	}
+
+
+	QHash<QString, QString> suffix2kind;
+
+	/////////////////////////////////////////
+	QString fileKind( const QString& path ) {
+		auto suffix = QFileInfo( path ).suffix();
+
+		auto it = suffix2kind.find( suffix );
+
+		if( it != suffix2kind.constEnd() ) {
+			return ( *it );
+		}
+
+		auto s = $$( ".%1" ).arg( suffix );
+		auto* w = s.utf16();
+
+		DWORD dwSize;
+		auto hr = AssocQueryStringW(
+			ASSOCF_NOTRUNCATE,
+			ASSOCSTR_FRIENDLYDOCNAME,
+			(wchar_t*) w,
+			nullptr,
+			nullptr,
+			&dwSize
+		);
+		wchar_t* buf = new wchar_t[ dwSize ];
+		//ZeroMemory( &buf, sizeof( wchar_t ) * dwSize );
+
+		hr = AssocQueryStringW(
+			ASSOCF_NOTRUNCATE,
+			ASSOCSTR_FRIENDLYDOCNAME,
+			(wchar_t*) w,
+			nullptr,
+			buf,
+			&dwSize
+		);
+		auto result = QString::fromWCharArray( buf );
+				suffix2kind.insert( suffix , result );
+		delete[] buf;
+
+		return result;
 	}
 
 #ifdef ENABLE_SOUND

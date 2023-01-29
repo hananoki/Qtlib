@@ -24,7 +24,7 @@ namespace $ {
 
 	QString toString( int i );
 	QString toString( bool b );
-	QString toString( const QDateTime& i );
+	QString toString( const QDateTime& dt, bool sec = false );
 
 	const wchar_t* toWCharPtr( const QString& s );
 	bool match( const QString& s1, const QString& s2, std::function<void( QRegularExpressionMatch& )> func = nullptr, QRegularExpression::MatchType matchType = QRegularExpression::NormalMatch );
@@ -61,6 +61,7 @@ namespace $ {
 
 	QPixmap getStdPixmap( QStyle::StandardPixmap id );
 
+	QString fileSize( qint64 fsize );
 
 	/// @brief  日付チェック
 	/// @param  inFile
@@ -106,6 +107,10 @@ namespace $ {
 
 	void showInExplorer( const QString& path );
 
+	void showProperty( const QString& path );
+
+	QString fileKind( const QString& path );
+
 	inline int toInt( const QString& s ) {
 		return  s.toInt();
 	}
@@ -114,6 +119,9 @@ namespace $ {
 	}
 
 	inline QString toString( int i ) {
+		return  QString::number( i );
+	}
+	inline QString toString( qint64 i ) {
 		return  QString::number( i );
 	}
 	inline QString toStringHex( int i ) {
@@ -133,7 +141,7 @@ namespace $ {
 	inline QString toString( bool b ) {
 		return b ? "True" : "False";
 	}
-	inline QString toString( const QDateTime& dt, bool sec = false ) {
+	inline QString toString( const QDateTime& dt, bool sec /*= false*/ ) {
 		return dt.toString( sec ? "yyyy/MM/dd hh:mm:ss" : "yyyy/MM/dd hh:mm" );
 	}
 

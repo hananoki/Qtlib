@@ -8,9 +8,9 @@ class QFileInfo;
 class HTreeWidgetItem : public QTreeWidgetItem {
 public:
 	HTreeWidgetItem() : QTreeWidgetItem() {}
-	HTreeWidgetItem( QTreeWidget* _treeWidget ) : treeWidget( _treeWidget ) {}
+	HTreeWidgetItem( QTreeWidget* _treeWidget ) : QTreeWidgetItem( _treeWidget ) {}
 
-	QTreeWidget* treeWidget;
+	//QTreeWidget* treeWidget;
 
 	// @brief  /(スラッシュ)を区切りとしてノードの繋がりを文字列で返す
 	QString fullPath();

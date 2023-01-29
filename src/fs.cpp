@@ -69,28 +69,45 @@ namespace fs {
 	}
 
 	void enumerateFiles( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( const QString& )> cb ) {
+		enumerateFiles( path, searchPattern, searchOption, 0, cb );
+	}
+
+	void enumerateFiles( QString path, QString searchPattern, SearchOption searchOption, QDir::Filters filterFlags, std::function<bool( const QString& )> cb ) {
 		internalDirIterator(
 			path,
 			searchPattern,
-			QDir::Files,
+			QDir::Files | filterFlags,
 			searchOption,
 			cb
 		);
 	}
 
 	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( const QString& )> cb ) {
+		enumerateDirectories( path, searchPattern, searchOption, 0, cb );
+	}
+
+	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, QDir::Filters filterFlags, std::function<bool( const QString& )> cb ) {
 		internalDirIterator(
 			path,
 			searchPattern,
-			QDir::Dirs | QDir::NoDot | QDir::NoDotDot,
+			QDir::Dirs | QDir::NoDot | QDir::NoDotDot | filterFlags,
 			searchOption,
 			cb
 		);
 	}
 
 
+	/////////////////////////////////////////
 	QStringList getFiles( QString path, QString searchPattern, SearchOption searchOption ) {
+		return getFiles( path, searchPattern, searchOption, 0 );
+	}
+
+
+	/////////////////////////////////////////
+	QStringList getFiles( QString path, QString searchPattern, SearchOption searchOption, QDir::Filters filterFlags ) {
 		QDir::Filters filters = QDir::Files;
+		filters |= filterFlags;
+
 		QStringList nameFilters = searchPattern.split( ";" );
 		QStringList result;
 
@@ -106,8 +123,17 @@ namespace fs {
 	}
 
 
+	/////////////////////////////////////////
 	QStringList getDirectories( QString path, QString searchPattern, SearchOption searchOption ) {
-		QDir::Filters filters = QDir::Dirs | QDir::NoDot | QDir::NoDotDot;
+		return getDirectories( path, searchPattern, searchOption, QDir::NoDotAndDotDot );
+	}
+
+
+	/////////////////////////////////////////
+	QStringList getDirectories( QString path, QString searchPattern, SearchOption searchOption, QDir::Filters filterFlags ) {
+		QDir::Filters filters = QDir::Dirs | QDir::NoDotAndDotDot;
+		filters |= filterFlags;
+
 		QStringList nameFilters = searchPattern.split( ";" );
 
 		// 対象フラグ  
@@ -367,7 +393,7 @@ namespace fs {
 #else
 		qWarning << u8"未実装";
 #endif
-		}
+	}
 
 
 	/////////////////////////////////////////
@@ -425,4 +451,4 @@ namespace fs {
 	bool isWritableFile( const QString& path ) {
 		return QFileInfo( path ).isWritable();
 	}
-	}
+}

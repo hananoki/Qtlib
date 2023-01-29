@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <QByteArray>
+#include <QDir>
 #include <functional>
 
 class QString;
@@ -74,8 +75,16 @@ namespace fs {
 
 	// ラムダ式戻り値bool: true 列挙を継続する false 列挙を中止する
 	void enumerateFiles( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( const QString& )> cb );
-	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( const QString& )> cb );
+	void enumerateFiles( QString path, QString searchPattern, SearchOption searchOption, QDir::Filters filterFlags, std::function<bool( const QString& )> cb );
 
+	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( const QString& )> cb );
+	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, QDir::Filters filterFlags, std::function<bool( const QString& )> cb );
+
+	// 指定した条件を満たすファイルの名前を返します
 	QStringList getFiles( QString path, QString searchPattern, SearchOption searchOption = SearchOption::TopDirectoryOnly );
+	QStringList getFiles( QString path, QString searchPattern, SearchOption searchOption, QDir::Filters filterFlags );
+
+	// 指定した条件を満たすサブディレクトリの名前を返します
 	QStringList getDirectories( QString path, QString searchPattern, SearchOption searchOption = SearchOption::TopDirectoryOnly );
+	QStringList getDirectories( QString path, QString searchPattern, SearchOption searchOption, QDir::Filters filterFlags );
 }
