@@ -8,10 +8,15 @@
 #include <QDirIterator>
 #include <QTextStream>
 #ifdef Q_OS_WIN
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 #include <QtWin>
 #endif
+#include <shlwapi.h>
+#endif
 #include <QDebug>
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 #include <QTextCodec>
+#endif
 
 void binarySerializer::write( const QString& filepath, std::function<void( QDataStream& )> cb ) {
 	fs::mkdir( path::getDirectoryName( filepath ) );
@@ -38,7 +43,12 @@ void tsv::parser( const QString& filepath, std::function<void( const QStringList
 		return;
 	}
 	QTextStream in( &file );
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 	in.setCodec( "UTF-8" );
+#else
+	in.setEncoding( QStringConverter::Utf8 );
+	//ts.setEncoding( bUtf8 ? QStringConverter::Utf8 : QStringConverter::Latin1 );
+#endif
 	if( in.atEnd() )return;
 
 	auto s = in.readLine();// 一行目はヘッダ扱いとして無視する
@@ -69,7 +79,7 @@ namespace fs {
 	}
 
 	void enumerateFiles( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( const QString& )> cb ) {
-		enumerateFiles( path, searchPattern, searchOption, 0, cb );
+		enumerateFiles( path, searchPattern, searchOption, (QDir::Filters) 0, cb );
 	}
 
 	void enumerateFiles( QString path, QString searchPattern, SearchOption searchOption, QDir::Filters filterFlags, std::function<bool( const QString& )> cb ) {
@@ -83,7 +93,7 @@ namespace fs {
 	}
 
 	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, std::function<bool( const QString& )> cb ) {
-		enumerateDirectories( path, searchPattern, searchOption, 0, cb );
+		enumerateDirectories( path, searchPattern, searchOption, (QDir::Filters) 0, cb );
 	}
 
 	void enumerateDirectories( QString path, QString searchPattern, SearchOption searchOption, QDir::Filters filterFlags, std::function<bool( const QString& )> cb ) {
@@ -99,7 +109,7 @@ namespace fs {
 
 	/////////////////////////////////////////
 	QStringList getFiles( QString path, QString searchPattern, SearchOption searchOption ) {
-		return getFiles( path, searchPattern, searchOption, 0 );
+		return getFiles( path, searchPattern, searchOption, (QDir::Filters) 0 );
 	}
 
 
@@ -244,10 +254,18 @@ namespace fs {
 		QTextStream in( &f );
 
 		if( encoding == Encoding::UTF8 || encoding == Encoding::UTF8N ) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			in.setCodec( "UTF-8" );
+#else
+			in.setEncoding( QStringConverter::Utf8 );
+#endif
 		}
 		if( encoding == Encoding::Shift_JIS ) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			in.setCodec( "Shift-JIS" );
+#else
+			//in.setEncoding( QStringConverter::Utf8 );
+#endif
 		}
 
 		return in.readAll();
@@ -266,10 +284,18 @@ namespace fs {
 		QTextStream in( &file );
 
 		if( encoding == Encoding::UTF8 || encoding == Encoding::UTF8N ) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			in.setCodec( "UTF-8" );
+#else
+			in.setEncoding( QStringConverter::Utf8 );
+#endif
 		}
 		if( encoding == Encoding::Shift_JIS ) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			in.setCodec( "Shift-JIS" );
+#else
+			//in.setEncoding( QStringConverter::Utf8 );
+#endif
 		}
 
 		while( !in.atEnd() ) result << in.readLine();
@@ -296,10 +322,18 @@ namespace fs {
 		QTextStream in( &file );
 
 		if( encoding == Encoding::UTF8 || encoding == Encoding::UTF8N ) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			in.setCodec( "UTF-8" );
+#else
+			in.setEncoding( QStringConverter::Utf8 );
+#endif
 		}
 		if( encoding == Encoding::Shift_JIS ) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			in.setCodec( "Shift-JIS" );
+#else
+			//in.setEncoding( QStringConverter::Utf8 );
+#endif
 		}
 
 		while( !in.atEnd() ) cb( in.readLine() );
@@ -336,17 +370,25 @@ namespace fs {
 		QTextStream out( &file );
 
 		if( encoding == Encoding::UTF8 || encoding == Encoding::UTF8N ) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			out.setCodec( "UTF-8" );
+#else
+			out.setEncoding( QStringConverter::Utf8 );
+#endif
 		}
 		if( encoding == Encoding::UTF8 ) {
 			out.setGenerateByteOrderMark( true );
 		}
 		if( encoding == Encoding::Shift_JIS ) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			out.setCodec( "Shift-JIS" );
+#else
+			//out.setEncoding( QStringConverter::Utf8 );
+#endif
 		}
 
 		for( auto& s : lines ) {
-			out << s << endl;
+			out << s << Qt::endl;
 		}
 		file.close();
 	}
@@ -369,13 +411,21 @@ namespace fs {
 		QTextStream out( &file );
 
 		if( encoding == Encoding::UTF8 || encoding == Encoding::UTF8N ) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			out.setCodec( "UTF-8" );
+#else
+			out.setEncoding( QStringConverter::Utf8 );
+#endif
 		}
 		if( encoding == Encoding::UTF8 ) {
 			out.setGenerateByteOrderMark( true );
 		}
 		if( encoding == Encoding::Shift_JIS ) {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			out.setCodec( "Shift-JIS" );
+#else
+			//out.setEncoding( QStringConverter::Utf8 );
+#endif
 		}
 		//QTextCodec* codec = QTextCodec::codecForName( "Shift-JIS" );
 		out << contents;
@@ -399,7 +449,7 @@ namespace fs {
 	/////////////////////////////////////////
 	/// @brief  ファイルをゴミ箱へ移動します
 	/// @params ファイルパス
-	int moveToTrash( const QString& inFullPath ) {
+	int moveToTrash( const QString& inFullPath, bool silent /*= false*/ ) {
 #ifdef Q_OS_WIN
 		auto fullPath = path::separatorToOS( inFullPath );
 		if( !isExistDirectory( fullPath ) && !isExistFile( fullPath ) ) return -1;
@@ -412,7 +462,9 @@ namespace fs {
 		//sf.fFlags = sf.fFlags | FILEOP_FLAGS.FOF_NOERRORUI; //エラー画面を表示しません。
 		// 単体ファイルの削除なので複数ファイル削除で使用されると進捗ダイアログがOn/Offが頻発する
 		// 結果的にメインウィンドウのフォーカスが入れ食い状態になる
-		sf.fFlags = sf.fFlags | FOF_SILENT; //進捗ダイアログを表示しません。
+		if( silent ) {
+			sf.fFlags = sf.fFlags | FOF_SILENT; //進捗ダイアログを表示しません。
+		}
 		//sf.fFlags = sf.fFlags | FILEOP_FLAGS.FOF_NOCONFIRMATION; //削除確認ダイアログを表示しません。
 
 		auto* buf = (wchar_t*) malloc( sizeof( wchar_t ) * ( fullPath.size() + 2 ) );

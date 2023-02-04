@@ -3,6 +3,7 @@
 #include <QKeySequence>
 #include <functional>
 #include <QFutureWatcher>
+#include <QTreeWidget>
 
 class QAction;
 class QCheckBox;
@@ -17,7 +18,7 @@ class QPushButton;
 class QSlider;
 class QString;
 class QToolButton;
-class QTreeWidget;
+//class QTreeWidget;
 class QTreeWidgetItem;
 class QObject;
 class QWidget;

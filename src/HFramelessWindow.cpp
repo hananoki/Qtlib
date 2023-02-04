@@ -5,7 +5,9 @@
 #include <QDebug>
 
 #ifdef Q_OS_WIN
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 #include <QtWin>
+#endif
 #include <dwmapi.h>
 #pragma comment (lib,"Dwmapi.lib")
 #pragma comment (lib,"user32.lib")
@@ -45,7 +47,11 @@ void HFramelessWindow::addCaptionWidget( QWidget* widget ) {
 
 #ifdef Q_OS_WIN
 /////////////////////////////////////////
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 bool HFramelessWindow::nativeEvent( const QByteArray& eventType, void* message, long* result ) {
+#else
+bool HFramelessWindow::nativeEvent( const QByteArray& eventType, void* message, qintptr* result ) {
+#endif
 	MSG* msg = static_cast<MSG*>( message );
 
 	////マウスポインタがクライアント領域内にあるか

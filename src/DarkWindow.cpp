@@ -4,7 +4,9 @@
 #include <QCloseEvent>
 
 #ifdef Q_OS_WIN
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 #include <QtWin>
+#endif
 #include <dwmapi.h>
 #pragma comment (lib,"Dwmapi.lib")
 #pragma comment (lib,"user32.lib")
@@ -176,7 +178,11 @@ QList< QWidget*>& DarkDialog::captionWidget() {
 
 #ifdef Q_OS_WIN
 /////////////////////////////////////////
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 bool DarkDialog::nativeEvent( const QByteArray& eventType, void* message, long* result ) {
+#else
+bool DarkDialog::nativeEvent( const QByteArray & eventType, void* message, qintptr * result ) {
+#endif
 	MSG* msg = static_cast<MSG*>( message );
 
 	////マウスポインタがクライアント領域内にあるか

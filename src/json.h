@@ -26,7 +26,7 @@ namespace json { \
 using StringKeyValue = QMap<QString, QString>;
 
 namespace json {
-	
+
 	bool read( const QString& filePath, std::function<void( const QJsonObject& )> cb );
 	void write( const QString& filePath, std::function<void( QJsonObject& )> cb );
 
@@ -47,6 +47,10 @@ namespace json {
 	}
 
 
+	template<>
+	inline void SetValue<QChar>( QJsonObject& jsonObj, const QString& name, const QChar& value ) {
+		jsonObj[ name ] = value.unicode();
+	}
 
 	template<>
 	inline void SetValue<QPoint>( QJsonObject& jsonObj, const QString& name, const QPoint& value ) {
@@ -73,6 +77,13 @@ namespace json {
 	inline int GetValue<int>( const QJsonValue& value ) {
 		return 	value.toInt();
 	}
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+	template<>
+	inline QChar GetValue<QChar>( const QJsonValue& value ) {
+		return value.toInt();
+	}
+#endif
 
 	template<>
 	inline bool GetValue<bool>( const QJsonValue& value ) {

@@ -17,17 +17,95 @@
 #include <QDesktopServices>
 #include <QUrl>
 
+
 //#define ENABLE_SOUND
 #ifdef ENABLE_SOUND
 #include <QSoundEffect>
 #endif
 
 #ifdef Q_OS_WIN
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 #include <QtWin>
+#endif
 #include <shlwapi.h>
+#include <memory.h>
 #pragma comment (lib,"Shlwapi.lib")
 #endif
 
+typedef struct _REPARSE_DATA_BUFFER {
+	ULONG  ReparseTag;
+	USHORT ReparseDataLength;
+	USHORT Reserved;
+	union {
+		struct {
+			USHORT SubstituteNameOffset;
+			USHORT SubstituteNameLength;
+			USHORT PrintNameOffset;
+			USHORT PrintNameLength;
+			ULONG  Flags;
+			WCHAR  PathBuffer[ 1 ];
+		} SymbolicLinkReparseBuffer;
+		struct {
+			USHORT SubstituteNameOffset;
+			USHORT SubstituteNameLength;
+			USHORT PrintNameOffset;
+			USHORT PrintNameLength;
+			WCHAR  PathBuffer[ 1 ];
+		} MountPointReparseBuffer;
+		struct {
+			UCHAR DataBuffer[ 1 ];
+		} GenericReparseBuffer;
+	} DUMMYUNIONNAME;
+} REPARSE_DATA_BUFFER, * PREPARSE_DATA_BUFFER;
+
+
+QString removeUncOrLongPathPrefix( QString path ) {
+	constexpr qsizetype minPrefixSize = 4;
+	if( path.size() < minPrefixSize )
+		return path;
+
+	auto data = path.data();
+	const auto slash = path[ 0 ];
+	if( slash != u'\\' && slash != u'/' )
+		return path;
+
+	// check for "//?/" or "/??/"
+	if( data[ 2 ] == u'?' && data[ 3 ] == slash && ( data[ 1 ] == slash || data[ 1 ] == u'?' ) ) {
+
+		path = path.remove( 0, minPrefixSize );
+
+		// check for a possible "UNC/" prefix left-over
+		if( path.size() >= 4 ) {
+			data = path.data();
+			if( data[ 0 ] == u'U' && data[ 1 ] == u'N' && data[ 2 ] == u'C' && data[ 3 ] == slash ) {
+				data[ 2 ] = slash;
+				return path.remove( 0, 2 );
+			}
+		}
+	}
+
+	return path;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////
+HFileInfo::HFileInfo( const QString& _fullPath ) :
+	QFileInfo( _fullPath ),
+	fullpath( _fullPath ){
+
+}
+
+/////////////////////////////////////////
+bool HFileInfo::isLink() {
+	return isSymbolicLink() || isJunction();
+}
+
+/////////////////////////////////////////
+QString HFileInfo::linkTarget() {
+	if( isSymbolicLink() ) return symLinkTarget();
+	if( isJunction() ) return 	$::junctionTarget( fullpath );
+	return "";
+}
 
 namespace $ {
 
@@ -41,8 +119,12 @@ namespace $ {
 				return e < 0;
 			}
 		} pred;
-
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 		qSort( files.begin(), files.end(), pred );
+#else
+		std::sort( files.begin(), files.end(), pred );
+#endif
+
 #else
 		files.sort();
 #endif
@@ -103,7 +185,7 @@ namespace $ {
 
 	// エクスプローラで見えるサイズ
 	// 
-	QString fileSize( qint64 fsize ) {
+	QString toStringFileSize( qint64 fsize ) {
 		double num = fsize;
 
 		if( num >= 1024 ) {
@@ -255,10 +337,63 @@ namespace $ {
 			&dwSize
 		);
 		auto result = QString::fromWCharArray( buf );
-				suffix2kind.insert( suffix , result );
+		suffix2kind.insert( suffix, result );
 		delete[] buf;
 
 		return result;
+	}
+
+
+	/////////////////////////////////////////
+	QString junctionTarget( const QString& path ) {
+		QString result;
+		HANDLE handle = CreateFile( (wchar_t*) path.utf16(),
+			FILE_READ_EA,
+			FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+			0,
+			OPEN_EXISTING,
+			FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT,
+			0 );
+
+		if( handle != INVALID_HANDLE_VALUE ) {
+			DWORD bufsize = MAXIMUM_REPARSE_DATA_BUFFER_SIZE;
+			REPARSE_DATA_BUFFER* rdb = (REPARSE_DATA_BUFFER*) malloc( bufsize );
+			Q_CHECK_PTR( rdb );
+			DWORD retsize = 0;
+			if( ::DeviceIoControl( handle, FSCTL_GET_REPARSE_POINT, 0, 0, rdb, bufsize, &retsize, 0 ) ) {
+				if( rdb->ReparseTag == IO_REPARSE_TAG_MOUNT_POINT ) {
+					int length = rdb->MountPointReparseBuffer.SubstituteNameLength / sizeof( wchar_t );
+					int offset = rdb->MountPointReparseBuffer.SubstituteNameOffset / sizeof( wchar_t );
+					const wchar_t* PathBuffer = &rdb->MountPointReparseBuffer.PathBuffer[ offset ];
+					result = QString::fromWCharArray( PathBuffer, length );
+				}
+				else if( rdb->ReparseTag == IO_REPARSE_TAG_SYMLINK ) {
+					int length = rdb->SymbolicLinkReparseBuffer.SubstituteNameLength / sizeof( wchar_t );
+					int offset = rdb->SymbolicLinkReparseBuffer.SubstituteNameOffset / sizeof( wchar_t );
+					const wchar_t* PathBuffer = &rdb->SymbolicLinkReparseBuffer.PathBuffer[ offset ];
+					result = QString::fromWCharArray( PathBuffer, length );
+				}
+				// remove "\\?\", "\??\" or "\\?\UNC\"
+				result = removeUncOrLongPathPrefix( result );
+			}
+			free( rdb );
+			CloseHandle( handle );
+
+			//#if QT_CONFIG(fslibs) && QT_CONFIG(regularexpression)
+						//initGlobalSid();
+			QRegularExpression matchVolumeRe( QLatin1String( "^Volume\\{([a-z]|[0-9]|-)+\\}\\\\" ), QRegularExpression::CaseInsensitiveOption );
+			auto matchVolume = matchVolumeRe.match( result );
+			if( matchVolume.hasMatch() ) {
+				Q_ASSERT( matchVolume.capturedStart() == 0 );
+				DWORD len;
+				wchar_t buffer[ MAX_PATH ];
+				const QString volumeName = QLatin1String( "\\\\?\\" ) + matchVolume.captured();
+				if( GetVolumePathNamesForVolumeName( reinterpret_cast<LPCWSTR>( volumeName.utf16() ), buffer, MAX_PATH, &len ) != 0 )
+					result.replace( 0, matchVolume.capturedLength(), QString::fromWCharArray( buffer ) );
+			}
+			//#endif // QT_CONFIG(fslibs)
+		}
+		return path::separatorToSlash( result );
 	}
 
 #ifdef ENABLE_SOUND

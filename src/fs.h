@@ -3,9 +3,11 @@
 #include <QByteArray>
 #include <QDir>
 #include <functional>
+#include <QString>
+#include <QStringList>
 
-class QString;
-class QStringList;
+//class QString;
+//class QStringList;
 
 enum class Encoding : int {
 	None,
@@ -66,7 +68,7 @@ namespace fs {
 	void writeAllText( const QString& path, const QString& contents, Encoding encoding );
 
 	void moveToTrash( const QStringList& fileList );
-	int moveToTrash( const QString& fullPath );
+	int moveToTrash( const QString& fullPath, bool silent = false );
 
 	void removeDirectoryRecursively( const QString& fullPath );
 	bool isExistFile( const QString& path );

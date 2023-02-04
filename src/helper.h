@@ -4,15 +4,26 @@
 #include <QStyle>
 #include <QRegularExpression>
 #include <QDateTime>
+#include <QFileInfo>
+#include <QString>
+#include <QStringList>
 
-class QString;
-class QStringList;
+//class QString;
+//class QStringList;
 class QTreeWidgetItem;
 //class QRegularExpressionMatch;
 
 
 #define $$(x) QString(x)
 #define $F(fmt, ...) QString::asprintf(fmt, __VA_ARGS__)
+
+class HFileInfo : public QFileInfo {
+public:
+	HFileInfo( const QString& _fullPath );
+	bool isLink();
+	QString linkTarget();
+	QString fullpath;
+};
 
 
 namespace $ {
@@ -61,7 +72,7 @@ namespace $ {
 
 	QPixmap getStdPixmap( QStyle::StandardPixmap id );
 
-	QString fileSize( qint64 fsize );
+	QString toStringFileSize( qint64 fsize );
 
 	/// @brief  日付チェック
 	/// @param  inFile
@@ -110,6 +121,10 @@ namespace $ {
 	void showProperty( const QString& path );
 
 	QString fileKind( const QString& path );
+
+	QString junctionTarget( const QString& path );
+
+
 
 	inline int toInt( const QString& s ) {
 		return  s.toInt();
@@ -174,6 +189,8 @@ namespace $ {
 }
 
 
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+
 class $enums {
 public:
 	template<class T>
@@ -191,6 +208,7 @@ public:
 	}
 };
 
+#endif
 
 
 

@@ -35,7 +35,11 @@ public:
 private:
 	std::unique_ptr<DarkWidgetPrivate> impl;
 #ifdef Q_OS_WIN
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 	bool nativeEvent( const QByteArray& eventType, void* message, long* result ) override;
+#else
+	virtual bool nativeEvent( const QByteArray& eventType, void* message, qintptr* result ) override;
+#endif
 #endif
 };
 
