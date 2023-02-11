@@ -35,7 +35,7 @@ public:
 namespace fs {
 	void mkdir( const QString& path );
 	void cp( const QString& src, const QString& dst );
-	void mv( const QString& src, const QString& dst );
+	bool mv( const QString& src, const QString& dst );
 
 	void rmDir( const QString& path );
 
@@ -89,4 +89,7 @@ namespace fs {
 	// 指定した条件を満たすサブディレクトリの名前を返します
 	QStringList getDirectories( QString path, QString searchPattern, SearchOption searchOption = SearchOption::TopDirectoryOnly );
 	QStringList getDirectories( QString path, QString searchPattern, SearchOption searchOption, QDir::Filters filterFlags );
+
+	/////////////////////////////////////////
+	QString volumeName( const QString& drive );
 }

@@ -204,15 +204,16 @@ namespace fs {
 		}
 	}
 
-	void mv( const QString& src, const QString& dst ) {
+	bool mv( const QString& src, const QString& dst ) {
 		if( isExistDirectory( src ) ) {
 			QDir dir( path::getDirectoryName( src ) );
-			dir.rename( path::getFileName( src ), path::getFileName( dst ) );
+			return dir.rename( path::getFileName( src ), path::getFileName( dst ) );
 		}
 		if( isExistFile( src ) ) {
 			QFile f( src );
-			f.rename( dst );
+			return f.rename( dst );
 		}
+		return false;
 	}
 
 
@@ -502,5 +503,29 @@ namespace fs {
 
 	bool isWritableFile( const QString& path ) {
 		return QFileInfo( path ).isWritable();
+	}
+
+
+	/////////////////////////////////////////
+	QString volumeName( const QString& drive ) {
+		WCHAR szVolumeName[ 256 ];
+		WCHAR szFileSystemName[ 256 ];
+		DWORD dwSerialNumber = 0;
+		DWORD dwMaxFileNameLength = 256;
+		DWORD dwFileSystemFlags = 0;
+
+		bool ret = false;
+		/*
+		qDebug() << "get bool return-----" << GetVolumeInformation( (WCHAR*) drive.utf16(), szVolumeName, 256, &dwSerialNumber, &dwMaxFileNameLength, &dwFileSystemFlags, szFileSystemName, 256 );
+		qDebug() << "FileSystemName format type----" << QString::fromUtf16( (const ushort*) szFileSystemName );
+		qDebug() << "VolumeName--------v" << QString::fromStdWString( szVolumeName );
+		qDebug() << "SerialNumber" << dwSerialNumber;
+		qDebug() << "MaxFileNameLength" << dwMaxFileNameLength;
+
+		qDebug() << "FileSystemFlags" << dwFileSystemFlags;
+		*/
+		GetVolumeInformation( (WCHAR*) drive.utf16(), szVolumeName, 256, &dwSerialNumber, &dwMaxFileNameLength, &dwFileSystemFlags, szFileSystemName, 256 );
+
+		return QString::fromStdWString( szVolumeName );
 	}
 }

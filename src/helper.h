@@ -124,7 +124,11 @@ namespace $ {
 
 	QString junctionTarget( const QString& path );
 
+	void getVolumeInformation( const QString& tdrive );
 
+	int shellExecute( const QString& _filePath, const QString& _parameters );
+
+	std::tuple<quint64, quint64, quint64> getDiskFreeSpace( QChar driveLetter );
 
 	inline int toInt( const QString& s ) {
 		return  s.toInt();

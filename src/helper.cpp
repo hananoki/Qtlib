@@ -16,6 +16,8 @@
 #include <QSettings>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QUrl>
+#include <QDebug>
 
 
 //#define ENABLE_SOUND
@@ -91,7 +93,7 @@ QString removeUncOrLongPathPrefix( QString path ) {
 //////////////////////////////////////////////////////////////////////////////////
 HFileInfo::HFileInfo( const QString& _fullPath ) :
 	QFileInfo( _fullPath ),
-	fullpath( _fullPath ){
+	fullpath( _fullPath ) {
 
 }
 
@@ -290,6 +292,7 @@ namespace $ {
 
 	/////////////////////////////////////////
 	void showProperty( const QString& path ) {
+#ifdef Q_OS_WIN
 		SHELLEXECUTEINFO sei;
 
 		ZeroMemory( &sei, sizeof( sei ) );
@@ -298,6 +301,7 @@ namespace $ {
 		sei.lpVerb = TEXT( "properties" );
 		sei.fMask = SEE_MASK_INVOKEIDLIST | SEE_MASK_NOCLOSEPROCESS;
 		ShellExecuteEx( &sei );
+#endif
 	}
 
 
@@ -305,6 +309,7 @@ namespace $ {
 
 	/////////////////////////////////////////
 	QString fileKind( const QString& path ) {
+#ifdef Q_OS_WIN
 		auto suffix = QFileInfo( path ).suffix();
 
 		auto it = suffix2kind.find( suffix );
@@ -339,14 +344,17 @@ namespace $ {
 		auto result = QString::fromWCharArray( buf );
 		suffix2kind.insert( suffix, result );
 		delete[] buf;
-
 		return result;
+#else
+		return "";
+#endif
 	}
 
 
 	/////////////////////////////////////////
 	QString junctionTarget( const QString& path ) {
 		QString result;
+#ifdef Q_OS_WIN
 		HANDLE handle = CreateFile( (wchar_t*) path.utf16(),
 			FILE_READ_EA,
 			FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
@@ -393,8 +401,68 @@ namespace $ {
 			}
 			//#endif // QT_CONFIG(fslibs)
 		}
+#endif
 		return path::separatorToSlash( result );
 	}
+
+
+	/////////////////////////////////////////
+	int shellExecute(const QString& _filePath, const QString& _parameters ) {
+		QString filePath = _filePath;
+		if(fs::isExistDirectory( filePath ) || fs::isExistFile( filePath ) ) {
+			filePath = $$( "\"%1\"" ).arg( path::separatorToOS( filePath ) );
+		}
+
+		QString parameters = _parameters;
+		if( fs::isExistDirectory( parameters ) || fs::isExistFile( parameters ) ) {
+			parameters = $$( "\"%1\"" ).arg( path::separatorToOS( parameters ) );
+		}
+		//SHELLEXECUTEINFO sei;
+		//ZeroMemory( &sei, sizeof( SHELLEXECUTEINFO ) );
+		//sei.cbSize=  sizeof( SHELLEXECUTEINFO );
+		//sei.lpDirectory = $::toWCharPtr( fol );
+		//sei.lpFile = $::toWCharPtr( fil );
+		//sei.lpParameters = $::toWCharPtr( param );
+		//sei.lpVerb = L"open";
+		//sei.nShow = SW_SHOWNORMAL;
+		auto hInst = ShellExecute( NULL, L"open", $::toWCharPtr( filePath ), $::toWCharPtr( parameters ), NULL, SW_SHOWNORMAL );
+		//ShellExecuteEx( &sei );
+
+		return 0;
+	}
+
+
+	/////////////////////////////////////////
+	/*
+	 * getDiskFreeSpaceInGB
+	 *
+	 * Returns the amount of free drive space for the given drive in GB. The
+	 * value is rounded to the nearest integer value.
+	 */
+	std::tuple<quint64, quint64, quint64> getDiskFreeSpace( QChar driveLetter ) {
+#ifdef Q_OS_WIN
+		quint64 freeBytesAvailableToCaller;
+		ULARGE_INTEGER totalNumberOfBytes;
+		ULARGE_INTEGER totalNumberOfFreeBytes;
+		freeBytesAvailableToCaller = 0L;
+		totalNumberOfBytes.QuadPart = 0L;
+		totalNumberOfFreeBytes.QuadPart = 0L;
+		auto drive = $$( "%1:" ).arg( driveLetter );
+		auto* w = $::toWCharPtr( drive );
+		if( !GetDiskFreeSpaceEx( w, (PULARGE_INTEGER) &freeBytesAvailableToCaller, &totalNumberOfBytes, &totalNumberOfFreeBytes ) ) {
+			qDebug() << "ERROR: Call to GetDiskFreeSpaceEx() failed.";
+		}
+
+		//int freeSpace_gb = freeBytesToCaller.QuadPart / B_per_GB;
+		//qDebug() << "Free drive space: " << freeSpace_gb << "GB";
+
+		return std::tuple<quint64, quint64, quint64>(
+			freeBytesAvailableToCaller,
+			totalNumberOfBytes.QuadPart,
+			totalNumberOfFreeBytes.QuadPart );
+#endif
+	}
+
 
 #ifdef ENABLE_SOUND
 

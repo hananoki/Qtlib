@@ -12,9 +12,15 @@ public:
 
 	//QTreeWidget* treeWidget;
 
+	/////////////////////////////////////////
 	// @brief  /(スラッシュ)を区切りとしてノードの繋がりを文字列で返す
 	QString fullPath();
 
+	/////////////////////////////////////////
+	void enableEdit();
+
+
+	/////////////////////////////////////////
 	template<class T>
 	QList<T*> childItems() {
 		QList<T*> lst;
@@ -26,6 +32,8 @@ public:
 		return lst;
 	}
 
+
+	/////////////////////////////////////////
 	template<class T>
 	T* find( QString text ) {
 		for( auto& p : childItems<T>() ) {
@@ -34,6 +42,8 @@ public:
 		return nullptr;
 	}
 
+
+	/////////////////////////////////////////
 	void setCheckState( int column, bool state ) {
 		QTreeWidgetItem::setCheckState( column, state ? Qt::CheckState::Checked : Qt::CheckState::Unchecked );
 	}
@@ -46,21 +56,39 @@ public:
 };
 
 
+/////////////////////////////////////////
+inline
+void HTreeWidgetItem::enableEdit() {
+	setFlags( flags() | Qt::ItemIsEditable );
+}
+
+
+
 //////////////////////////////////////////////////////////////////////////////////
 class HTreeWidget : public QTreeWidget {
 public:
 	HTreeWidget( QWidget* parent = nullptr );
 
+	
+
+	/////////////////////////////////////////
 	template <class T>
 	T* currentItem();
 
+	/////////////////////////////////////////
 	template <class T>
 	QList<T*> currentItems();
 
+
+	/////////////////////////////////////////
 	QStringList getExpandItemPaths();
 
+
+	/////////////////////////////////////////
 	void setExpandItemPaths( const QStringList& expandList );
 
+
+	/////////////////////////////////////////
 	template <class T>
 	T* removeTopLevelItem( T* item ) {
 		int index = indexOfTopLevelItem( item );
@@ -70,6 +98,8 @@ public:
 		return nullptr;
 	}
 
+
+	/////////////////////////////////////////
 	template <class T>
 	QList<T*> topLevelItems() {
 		QList<T*> lst;
@@ -80,6 +110,9 @@ public:
 		}
 		return lst;
 	}
+
+
+	/////////////////////////////////////////
 	template <>
 	QList<QTreeWidgetItem*> topLevelItems() {
 		QList<QTreeWidgetItem*> lst;
@@ -89,6 +122,8 @@ public:
 		return lst;
 	}
 
+
+	/////////////////////////////////////////
 	template <class T>
 	T* findTopLevelItem( const QString& text ) {
 		for( int i = 0; i < topLevelItemCount(); i++ ) {
@@ -99,9 +134,13 @@ public:
 		return nullptr;
 	}
 
+
+	/////////////////////////////////////////
 	template <class T>
 	T* itemFromIndex( const QModelIndex& index ) const;
 
+
+	/////////////////////////////////////////
 	void dragEnterEvent( QDragEnterEvent* e ) { if( onDragEnterEvent ) onDragEnterEvent( e ); }
 	void dragMoveEvent( QDragMoveEvent* e ) { if( odDagMoveEvent )odDagMoveEvent( e ); }
 	void dropEvent( QDropEvent* e ) { if( odDagMoveEvent )onDropEvent( e ); }
@@ -120,6 +159,8 @@ private:
 
 
 
+
+
 /////////////////////////////////////////
 template <class T>
 T* HTreeWidget::currentItem() {
@@ -128,6 +169,8 @@ T* HTreeWidget::currentItem() {
 	return dynamic_cast<T*>( items[ 0 ] );
 }
 
+
+/////////////////////////////////////////
 template <class T>
 QList<T*> HTreeWidget::currentItems() {
 	QList<T*> l;
@@ -139,6 +182,8 @@ QList<T*> HTreeWidget::currentItems() {
 	return l;
 }
 
+
+/////////////////////////////////////////
 template <class T>
 T* HTreeWidget::itemFromIndex( const QModelIndex& index ) const {
 	return dynamic_cast<T*>( QTreeWidget::itemFromIndex( index ) );
