@@ -9,7 +9,10 @@
 //////////////////////////////////////////////////////////////////////////////////
 //HTreeWidgetItem::HTreeWidgetItem( QTreeWidget* view ) : treeWidget( view )
 //{}
-
+ QTreeWidget* HTreeWidgetItem::treeWidget() const {
+	 Q_ASSERT( 0/*, "Do not use."*/ );
+	return nullptr;
+}
 
 /////////////////////////////////////////
 QString HTreeWidgetItem::fullPath() {

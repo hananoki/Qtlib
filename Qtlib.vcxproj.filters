@@ -97,55 +97,111 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\DarkWindow.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\HCheckBox.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\HClickableLabel.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\HComboBox.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\HFlatPushButton.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\HFramelessWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="src\HFusionStyle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="src\HLogView.h">
+      <Filter>Header Files</Filter>
     </QtMoc>
     <ClInclude Include="src\HSignalBlocker.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\HTreeWidget.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\HWorker.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\icon.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\IConfigChanged.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\json.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\path.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="src\Qtlib.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <QtMoc Include="src\ui\UIFilePathBox.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\ui\UIFolderPathBox.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\ui\UIStatusBar.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="src\comboBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpplinq.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\icon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\path.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\qtlinq.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\widgets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <CustomBuild Include="debug\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
     <CustomBuild Include="release\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
+    
+    
+    
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\ui\UIFilePathBox.ui">
@@ -157,42 +213,5 @@
     <QtUic Include="src\ui\UIStatusBar.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\comboBox.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cpplinq.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\fs.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\helper.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\HFusionStyle.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Qtlib.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\qtlinq.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\widgets.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="src\HFramelessWindow.h">
-      <Filter>Source Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\HLogView.h">
-      <Filter>Source Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\ui\UIStatusBar.h">
-      <Filter>Source Files</Filter>
-    </QtMoc>
   </ItemGroup>
 </Project>

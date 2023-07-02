@@ -311,7 +311,7 @@ namespace fs {
 	 * @param  encoding: テキストエンコーディング
 	 * @param  cb:       コールバック
 	 */
-	bool readAllLines( const QString& filePath, Encoding encoding, std::function<void( const QString& )> cb ) {
+	bool readAllLines( const QString& filePath, Encoding encoding, std::function<bool( const QString& )> cb ) {
 		QFile file( filePath );
 		QStringList result;
 
@@ -348,9 +348,10 @@ namespace fs {
 	 * @param  filePath: ファイルパス
 	 * @param  cb:       コールバック
 	 */
-	bool readAllLines( const QString& filePath, std::function<void( const QString& )> cb ) {
+	bool readAllLines( const QString& filePath, std::function<bool( const QString& )> cb ) {
 		return readAllLines( filePath, Encoding::UTF8, cb );
 	}
+
 
 	/////////////////////////////////////////
 	void writeAllLines( const QString& filePath, const QStringList& lines, Encoding encoding ) {

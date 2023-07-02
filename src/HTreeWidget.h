@@ -7,10 +7,17 @@ class QFileInfo;
 //////////////////////////////////////////////////////////////////////////////////
 class HTreeWidgetItem : public QTreeWidgetItem {
 public:
-	HTreeWidgetItem() : QTreeWidgetItem() {}
-	HTreeWidgetItem( QTreeWidget* _treeWidget ) : QTreeWidgetItem( _treeWidget ) {}
+	HTreeWidgetItem() : QTreeWidgetItem(), tw( nullptr ) {}
+	HTreeWidgetItem( QTreeWidget* _treeWidget ) : tw( _treeWidget ) {}
 
-	//QTreeWidget* treeWidget;
+	// ↓は実装しない
+	// QTreeWidgetを指定することで自動的にツリー構築してくれるが
+	// 別スレッドでアイテム生成する場合に問題を起こす
+	//HTreeWidgetItem( QTreeWidget* _treeWidget ) : QTreeWidgetItem( _treeWidget ) {}
+
+	QTreeWidget* tw;
+
+	QTreeWidget* treeWidget() const;
 
 	/////////////////////////////////////////
 	// @brief  /(スラッシュ)を区切りとしてノードの繋がりを文字列で返す
@@ -69,7 +76,7 @@ class HTreeWidget : public QTreeWidget {
 public:
 	HTreeWidget( QWidget* parent = nullptr );
 
-	
+
 
 	/////////////////////////////////////////
 	template <class T>
@@ -96,6 +103,14 @@ public:
 			return (T*) takeTopLevelItem( index );
 		}
 		return nullptr;
+	}
+
+
+	/////////////////////////////////////////
+	void removeTopLevelItemAll() {
+		for( auto* p : topLevelItems<QTreeWidgetItem>() ) {
+			removeTopLevelItem( p );
+		}
 	}
 
 

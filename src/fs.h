@@ -52,7 +52,7 @@ namespace fs {
 	 * @param  encoding: テキストエンコーディング
 	 * @param  cb:       コールバック
 	 */
-	bool readAllLines( const QString& filePath, Encoding encoding, std::function<void( const QString& )> cb );
+	bool readAllLines( const QString& filePath, Encoding encoding, std::function<bool( const QString& )> cb );
 
 	/**
 	 * @brief  指定したファイルから一行毎に読み取り、指定コールバックに渡して呼び出します
@@ -60,7 +60,7 @@ namespace fs {
 	 * @param  filePath: ファイルパス
 	 * @param  cb:       コールバック
 	 */
-	bool readAllLines( const QString& filePath, std::function<void( const QString& )> cb );
+	bool readAllLines( const QString& filePath, std::function<bool( const QString& )> cb );
 
 	void writeAllLines( const QString& filePath, const QStringList& lines, Encoding encoding = Encoding::UTF8 );
 
